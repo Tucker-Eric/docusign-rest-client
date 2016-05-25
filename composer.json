@@ -1,0 +1,25 @@
+{
+  "name": "tucker-eric/laravel-docusign",
+  "description": "A PHP Wrapper For The Official Docusign Esign Library Implementing The Docusign REST Api",
+  "keywords": [
+    "docusign",
+    "rest"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eric Tucker",
+      "email": "tucker.ericm@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "docusign/esign-client": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "DocuSign\\Rest\\": "src/"
+    }
+  },
+  "minimum-stability": "dev"
+}
