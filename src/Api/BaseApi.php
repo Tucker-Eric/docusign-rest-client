@@ -66,6 +66,13 @@ abstract class BaseApi
         return call_user_func_array([$this->client, $method], $args);
     }
 
+    /**
+     * Get an options object or all of them for current Api class
+     * 
+     * @param null $method
+     * @return array|mixed
+     * @throws ClassNotFoundException
+     */
     public function getOptions($method = null)
     {
         if ($method === null) {
