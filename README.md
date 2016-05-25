@@ -64,7 +64,7 @@ $envelopeDefinition = $client->envelopeDefinition([
 
 To login and send a signature request from a template:
 
-> This will produce the same result as [this example](https://github.com/Tucker-Eric/docusign-rest-client/blob/docusign-template-example.md) from official Docusign Client
+> This will produce the same result as [this example](https://github.com/Tucker-Eric/docusign-rest-client/blob/master/docusign-template-example.md) from official Docusign Client
 
 ```php
 <?php
