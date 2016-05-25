@@ -101,7 +101,7 @@ abstract class BaseApi
         // All options are stored as a child namespace so the below is possible
         $class = get_class($this->client) . "\\" . ucfirst($method);
 
-        // If there is no array passed to the function just return teh opject
+        // If there is no array passed to the function just return the object
         if (!is_array($args[0]) || count($args[0]) === 0) {
             return new $class;
         }
