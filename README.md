@@ -3,6 +3,14 @@ Wrapper for the official [Docusign PHP Client Library](https://github.com/docusi
 
 This library handles all the object instantiation for the endpoints in the [DocuSign Api Explorer](http://iodocs.docusign.com/).
 
+### Install Through Composer
+
+```bash
+composer require tucker-eric/docusign-rest-client
+```
+
+
+
 # Usage
 
 The `DocuSign\Rest\Client` accesses all models and api endpoints and returns the respective obect.  It also handles all authentication as well as passing the `$account_id` to any method that requires it.
