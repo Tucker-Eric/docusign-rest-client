@@ -18,6 +18,8 @@ Example:
 ```php
 <?php
 
+require 'vendor/autoload.php';
+
 $client = new DocuSign\Rest\Client([
 	'username'       => $username,
 	'password'       => $password,
@@ -48,6 +50,8 @@ Example:
 
 ```php
 <?php
+
+require 'vendor/autoload.php';
 
 $client = new DocuSign\Rest\Client([
 	'username'       => $username,
