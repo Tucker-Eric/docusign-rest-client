@@ -1,14 +1,20 @@
 # Docusign Rest Client
-Wrapper for the official [Docusign PHP Client Library](https://github.com/docusign/docusign-php-client)
+Wrapper for the official [Docusign PHP Client Library](https://github.com/docusign/docusign-php-client).
 
+This library handles all the object instantiation for the endpoints in the [DocuSign Api Explorer](http://iodocs.docusign.com/).
 
 # Usage
 
-The `DocuSign\Rest\Client` accesses all models and api endpoints and returns the respective obect.
+The `DocuSign\Rest\Client` accesses all models and api endpoints and returns the respective obect.  It also handles all authentication as well as passing the `$account_id` to any method that requires it.
 
-All `DocuSign\eSign\Api` classes are accessible as properties of `DocuSign\Rest\Client`.
+### Api Endpoints
+
+All classes in the [`DocuSign\eSign\Api`](https://github.com/docusign/docusign-php-client/tree/master/src/Api) namesapace are accessible as **properties** of `DocuSign\Rest\Client`.
+
+Each property is a the orignal class name camel cased without the `Api` suffix.
 
 Example:
+
 ```php
 <?php
 
@@ -19,20 +25,27 @@ $client = new DocuSign\Rest\Client([
 	'host'           => $host
 ]);
 
-$client->accounts
-// Returns DocuSign\eSign\Api\AccountsApi
+$client->accounts // Returns DocuSign\eSign\Api\AccountsApi
 
-$client->customTabs
-// Returns DocuSign\eSign\Api\CustomTabsApi
+$client->customTabs // Returns DocuSign\eSign\Api\CustomTabsApi
 
-$client->folders
-// Returns DocuSign\eSign\Api\FoldersApi
+$client->folders // Returns DocuSign\eSign\Api\FoldersApi
 
 ```
+The client handles injecting the `$account_id` to any method that requires it.
 
-All `DocuSign\eSign\Model` classes are accessible as methods of `DocuSign\Rest\Client` and accept an array of snake cased parameters that will be set on the model.
+So calling a method like the [`DocuSign\eSign\Api\FoldersApi` `list()`](https://github.com/docusign/docusign-php-client/blob/master/src/Api/FoldersApi.php#L321) method is as easy as:
+
+```php
+$client->folders->list();  // Returns \DocuSign\eSign\Model\FoldersResponse
+```
+
+### Models
+
+All classes in the [`DocuSign\eSign\Model`](https://github.com/docusign/docusign-php-client/tree/master/src/Model) namespace are accessible as a camel cased **method** of `DocuSign\Rest\Client` and accept an array of snake cased parameters that will be set on the model.  Calling the method returns that model object.
 
 Example:
+
 ```php
 <?php
 
@@ -61,6 +74,45 @@ $envelopeDefinition = $client->envelopeDefinition([
 ]); // Returns DocuSign\eSign\Model\EnvelopeDefinition
 
 ```
+### Api Options
+
+Some classes in the `DocuSign\eSign\Api` namespace have options objects that can be created and passed to methods of that class.  Those objects are accessible by calling it as a method from that Api class.  The options methods accept an array of snake cased parameters to set.  You can also call this method without any parameters and it will return the options object and you can use that object's setter methods to set its properties
+
+The `->search()` method in the `DocuSign\eSign\Api\FoldersApi` class accepts [`DocuSign\eSign\Api\FoldersApi\SearchOptions`](https://github.com/docusign/docusign-php-client/blob/master/src/Api/FoldersApi.php#L37) to set the options.  These options are set as in the example below
+
+Example:
+
+```php
+
+$foldersApi = $this->client->folders;
+$searchOptions = $foldersApi->searchOptions([
+	'count'     => 20,
+	'order_by'  => 'sent',
+	'from_date' => '2010-01-01'
+]);
+$foldersApi->search($searchOptions);
+
+```
+You can retrieve any previously set options on an Api class with the `getOptions` method.  Passing the name of the method used to set the options returns that options object or not passing any parameters will return an array of all options objects for that Api class keyed by method name.
+
+Example:
+
+```php
+$envelopesApi = $this->client->envelopes;
+$envelopesApi->createEnvelopeOptions([
+	'merge_roles_on_draft' => 'true'
+]);
+$envelopesApi->updateOptions([
+	'resend_envelope' => 'true'
+]);
+
+$envelopesApi->getOptions(); // returns ['updateOptions' => DocuSign\eSign\Api\EnvelopesApi\UpdateOptions, 'createEnvelopeOptions' => DocuSign\eSign\Api\EnvelopesApi\CreateEnvelopeOptions]
+
+$envelopesApi->getOptions('updateOptions') // returns DocuSign\eSign\Api\EnvelopesApi\UpdateOptions
+
+```
+
+# Examples
 
 To login and send a signature request from a template:
 
@@ -97,30 +149,24 @@ class DocuSignSample
     	]);
 
     	$envelopeDefinition = $client->envelopeDefinition([
-    		'status'         => 'sent'
+    		'status'         => 'sent',
     		'email_subject'  => '[DocuSign PHP SDK] - Signature Request Sample',
     		'template_id'    => '[TEMPLATE_ID]',
     		'template_roles' => [
     			$templateRole
     		],
     	]);
-
-		// Even though this is pointless because all options are instantiated as null
-		// But it was in Docusign's example so I included it here
-    	$envelopeOptions = $client->envelopes->createEnvelopeOptions([
-			'cdse_mode'            => null,
-			'merge_roles_on_draft' => null
+		
+    	$envelopeOptions = $client->envelopes->createEnvelopeOptions([			
+			'merge_roles_on_draft' => false
     	]);
 		
-		// All methods requiring an acount_id are automatically handled by the client
-		// This means we DO NOT pass the account id as the first parameter.
-		// The other parameters stay  the same for the DocuSign methods
     	$envelopeSummary = $client->envelopes->createEnvelope($envelopeDefinition, $envelopeOptions);
 	}
 }
 ```
 
-That same example refactored could be:
+That same example refactored in it's own class:
 
 ```php
 <?php
@@ -150,18 +196,13 @@ class DocuSignSample
         ]);
 	}
 	
-	/**
-     * Sets the given options object and stores it
-     *
+	/**     
      * @return DocuSign\eSign\Model\EnvelopeSummary
      */
 	public function signatureRequestFromTemplate()
 	{
-		// All methods requiring an acount_id are automatically handled by the client
-		// This means we DO NOT pass the account id as the first parameter.
-		// The other parameters stay the same for the DocuSign methods
-    	return $docusign->envelopes->createEnvelope($this->client->envelopeDefinition([
-	    		'status'         => 'sent'
+    	return $this->client->envelopes->createEnvelope($this->client->envelopeDefinition([
+	    		'status'         => 'sent',
 	    		'email_subject'  => '[DocuSign PHP SDK] - Signature Request Sample',
 	    		'template_id'    => '[TEMPLATE_ID]',
 	    		'template_roles' => [
