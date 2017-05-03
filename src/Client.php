@@ -95,10 +95,11 @@ class Client
             // Instantiate the new model
             $docusignModel = new $model;
             if (is_array($args[0])) {
+                $setters = $docusignModel->setters();
                 // We have to set it this way because if we dont the indexes of docusign's construct
                 // Are all undefined.  So this way we can set what we want
                 foreach ($args[0] as $field => $val) {
-                    $docusignModel->{$docusignModel::$setters[$field]}($val);
+                    $docusignModel->{$setters[$field]}($val);
                 }
             }
 
