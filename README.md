@@ -44,7 +44,7 @@ $client->folders // Returns DocuSign\eSign\Api\FoldersApi
 ```
 The client handles injecting the `$account_id` to any method that requires it.
 
-So calling a method like the [`DocuSign\eSign\Api\FoldersApi` `list()`](https://github.com/docusign/docusign-php-client/blob/master/src/Api/FoldersApi.php#L321) method is as easy as:
+So calling a method like the [`DocuSign\eSign\Api\FoldersApi` `list()`](https://github.com/docusign/docusign-php-client/blob/master/src/Api/FoldersApi.php#L638) method is as easy as:
 
 ```php
 $client->folders->list();  // Returns \DocuSign\eSign\Model\FoldersResponse
