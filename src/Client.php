@@ -2,7 +2,7 @@
 
 namespace DocuSign\Rest;
 
-use DocuSign\eSign\ApiClient;
+use DocuSign\eSign\Client\ApiClient;
 use DocuSign\eSign\Configuration;
 
 
@@ -67,6 +67,11 @@ class Client
             $this->{$key} = $val;
         }
 
+        $this->initApiClient();
+    }
+
+    private function initApiClient()
+    {
         $this->client = new ApiClient($this->setConfiguration());
     }
 
@@ -78,6 +83,11 @@ class Client
                 'Password'      => $this->password,
                 'IntegratorKey' => $this->integrator_key
             ]));
+    }
+
+    public function getHost()
+    {
+        return $this->host;
     }
 
     /**
@@ -123,7 +133,7 @@ class Client
         if (array_key_exists($name, $this->_api_container)) {
             return $this->_api_container[$name];
         }
-        
+
         if (!class_exists($apiClass = "DocuSign\\Rest\\Api\\" . ucfirst($name))) {
             throw new Exceptions\ClassNotFoundException("Cannot Find Api Class $apiClass");
         }
@@ -132,7 +142,7 @@ class Client
     }
 
     /**
-     * Authenticates api client and stores account_id
+     * Authenticates api client, stores account_id, and updates host if changed by docusign
      *
      * @return $this
      */
@@ -140,9 +150,17 @@ class Client
     {
         if (!isset($this->account_id)) {
             $accounts = $this->authentication->login();
-            $allAccounts = $accounts->getLoginAccounts();
-            $account = $allAccounts[0];
+            $login_accounts = $accounts->getLoginAccounts();
+            $account = $login_accounts[0];
             $this->account_id = $account->getAccountId();
+            $base_url = $account->getBaseUrl();
+            $base_url = strtolower(substr($base_url, 0, strpos($base_url,'/restapi') + 8));
+            // If the host has changed, update host on client config
+            if ($this->host !== $base_url) {
+              $this->host = $base_url;
+              $this->_api_container = [];
+              $this->initApiClient();
+            }
         }
 
         $this->authenticated = true;
