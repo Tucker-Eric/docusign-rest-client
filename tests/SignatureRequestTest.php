@@ -1,6 +1,8 @@
 <?php
 
-class SignatureRequestTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class SignatureRequestTest extends TestCase
 {
 	public function testSignatureRequest()
 	{

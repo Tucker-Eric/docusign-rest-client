@@ -1,6 +1,8 @@
 <?php
 
-class LoginTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class LoginTest extends TestCase
 {
 	public function testLogin()
 	{
