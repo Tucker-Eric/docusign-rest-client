@@ -2,7 +2,7 @@
 
 namespace DocuSign\Rest;
 
-use DocuSign\eSign\ApiClient;
+use DocuSign\eSign\Client\ApiClient;
 use DocuSign\eSign\Configuration;
 
 
@@ -123,7 +123,7 @@ class Client
         if (array_key_exists($name, $this->_api_container)) {
             return $this->_api_container[$name];
         }
-        
+
         if (!class_exists($apiClass = "DocuSign\\Rest\\Api\\" . ucfirst($name))) {
             throw new Exceptions\ClassNotFoundException("Cannot Find Api Class $apiClass");
         }
