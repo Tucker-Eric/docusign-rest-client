@@ -38,12 +38,17 @@ abstract class BaseApi
     public function __construct(ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
+        $this->initClient();
+    }
+
+    private function initClient()
+    {
         $docusignClass = str_replace(__NAMESPACE__, "DocuSign\\eSign\\Api", get_class($this)) . 'Api';
-        $this->client = new $docusignClass($apiClient->getClient());
+        $this->client = new $docusignClass($this->apiClient->getClient());
     }
 
     /**
-     * Magic method to construct an options model or call an apimethod
+     * Magic method to construct an options model or call an api method
      * @param $method
      * @param $args
      * @return mixed
@@ -56,7 +61,12 @@ abstract class BaseApi
         }
 
         if ($method !== 'login' && !$this->apiClient->isAuthenticated()) {
+            $host = $this->apiClient->getHost();
             $this->apiClient->authenticate();
+            // If the host has changed, update host on client config
+            if ($host !== $this->apiClient->getHost()) {
+                $this->initClient();
+            }
         }
 
         if ($this->usesAccountId) {
@@ -68,7 +78,7 @@ abstract class BaseApi
 
     /**
      * Get an options object or all of them for current Api class
-     * 
+     *
      * @param null $method
      * @return array|mixed
      * @throws ClassNotFoundException
