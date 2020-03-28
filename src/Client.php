@@ -6,6 +6,25 @@ use DocuSign\eSign\Client\ApiClient;
 use DocuSign\eSign\Configuration;
 
 
+/**
+ * Class Client
+ * @property-read \DocuSign\eSign\Api\AccountsApi $accounts
+ * @property-read \DocuSign\eSign\Api\AuthenticationApi $authentication
+ * @property-read \DocuSign\eSign\Api\BillingApi $billing
+ * @property-read \DocuSign\eSign\Api\BulkEnvelopesApi $bulkEnvelopes
+ * @property-read \DocuSign\eSign\Api\CloudStorageApi $cloudStorage
+ * @property-read \DocuSign\eSign\Api\ConnectApi $connect
+ * @property-read \DocuSign\eSign\Api\CustomTabsApi $customTabs
+ * @property-read \DocuSign\eSign\Api\DiagnosticsApi $diagnostics
+ * @property-read \DocuSign\eSign\Api\EnvelopesApi $envelopes
+ * @property-read \DocuSign\eSign\Api\FoldersApi $folders
+ * @property-read \DocuSign\eSign\Api\GroupsApi $groups
+ * @property-read \DocuSign\eSign\Api\PowerFormsApi $powerForms
+ * @property-read \DocuSign\eSign\Api\SigningGroupsApi $signingGroups
+ * @property-read \DocuSign\eSign\Api\TemplatesApi $templates
+ * @property-read \DocuSign\eSign\Api\UsersApi $users
+ * @property-read \DocuSign\eSign\Api\WorkspacesApi $workspaces
+ */
 class Client
 {
     /**
@@ -145,6 +164,7 @@ class Client
      * Authenticates api client, stores account_id, and updates host if changed by docusign
      *
      * @return $this
+     * @throws \DocuSign\eSign\Client\ApiException
      */
     public function authenticate()
     {
