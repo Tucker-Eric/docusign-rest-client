@@ -8,9 +8,9 @@ namespace DocuSign\Rest\Api;
  * @method \DocuSign\eSign\Api\BulkEnvelopesApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
  * @method \DocuSign\eSign\Model\BulkEnvelopesResponse callList(\DocuSign\eSign\Api\BulkEnvelopesApi\ListOptions $options = null) Gets status information about bulk recipient batches
  * @method \DocuSign\eSign\Model\BulkRecipientsUpdateResponse deleteRecipients(string $envelope_id, string $recipient_id) Deletes the bulk recipient file from an envelope
- * @method \DocuSign\eSign\Api\BulkEnvelopesApi\GetOptions getOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\BulkEnvelopesApi\GetOptions getOptions(array $options = ['set_count' => null, 'set_include' => null, 'set_start_position' => null])
  * @method \DocuSign\eSign\Model\BulkEnvelopeStatus get(string $batch_id, \DocuSign\eSign\Api\BulkEnvelopesApi\GetOptions $options = null) Gets the status of a specified bulk send operation
- * @method \DocuSign\eSign\Api\BulkEnvelopesApi\GetRecipientsOptions getRecipientsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\BulkEnvelopesApi\GetRecipientsOptions getRecipientsOptions(array $options = ['set_include_tabs' => null, 'set_start_position' => null])
  * @method \DocuSign\eSign\Model\BulkRecipientsResponse getRecipients(string $envelope_id, string $recipient_id, \DocuSign\eSign\Api\BulkEnvelopesApi\GetRecipientsOptions $options = null) Gets the bulk recipient file from an envelope
  * @method \DocuSign\eSign\Model\BulkRecipientsSummaryResponse updateRecipients(string $envelope_id, string $recipient_id, \DocuSign\eSign\Model\BulkRecipientsRequest $bulk_recipients_request = null) Adds or replaces envelope bulk recipients
  */

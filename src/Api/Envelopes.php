@@ -16,11 +16,11 @@ namespace DocuSign\Rest\Api;
  * @method \DocuSign\eSign\Model\DocumentHtmlDefinitions createDocumentResponsiveHtmlPreview(string $document_id, string $envelope_id, \DocuSign\eSign\Model\DocumentHtmlDefinition $document_html_definition = null) Get Responsive HTML Preview for a document in an envelope
  * @method \DocuSign\eSign\Model\ViewUrl createEditView(string $envelope_id, \DocuSign\eSign\Model\ReturnUrlRequest $return_url_request = null) Returns a URL to the edit view UI
  * @method \DocuSign\eSign\Model\EmailSettings createEmailSettings(string $envelope_id, \DocuSign\eSign\Model\EmailSettings $email_settings = null) Adds email setting overrides to an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\CreateEnvelopeOptions createEnvelopeOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\CreateEnvelopeOptions createEnvelopeOptions(array $options = ['set_cdse_mode' => null, 'set_change_routing_order' => null, 'set_completed_documents_only' => null, 'set_merge_roles_on_draft' => null])
  * @method \DocuSign\eSign\Model\EnvelopeSummary createEnvelope(\DocuSign\eSign\Model\EnvelopeDefinition $envelope_definition = null, \DocuSign\eSign\Api\EnvelopesApi\CreateEnvelopeOptions $options = null) Creates an envelope
  * @method \DocuSign\eSign\Model\ViewUrl createEnvelopeRecipientSharedView(string $envelope_id, \DocuSign\eSign\Model\RecipientViewRequest $recipient_view_request = null) Provides a URL to start a shared recipient view of the Envelope UI
  * @method \DocuSign\eSign\Model\LockInformation createLock(string $envelope_id, \DocuSign\eSign\Model\LockRequest $lock_request = null) Lock an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\CreateRecipientOptions createRecipientOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\CreateRecipientOptions createRecipientOptions(array $options = ['set_resend_envelope' => null])
  * @method \DocuSign\eSign\Model\Recipients createRecipient(string $envelope_id, \DocuSign\eSign\Model\Recipients $recipients = null, \DocuSign\eSign\Api\EnvelopesApi\CreateRecipientOptions $options = null) Adds one or more recipients to an envelope
  * @method \DocuSign\eSign\Model\ViewUrl createRecipientView(string $envelope_id, \DocuSign\eSign\Model\RecipientViewRequest $recipient_view_request = null) Returns a URL to the recipient view UI
  * @method \DocuSign\eSign\Model\DocumentHtmlDefinitions createResponsiveHtmlPreview(string $envelope_id, \DocuSign\eSign\Model\DocumentHtmlDefinition $document_html_definition = null) Get Responsive HTML Preview for all documents in an envelope
@@ -40,20 +40,20 @@ namespace DocuSign\Rest\Api;
  * @method void deleteTemplatesFromDocument(string $document_id, string $envelope_id, string $template_id) Deletes a template from a document in an existing envelope
  * @method void getAttachment(string $attachment_id, string $envelope_id) Retrieves an attachment from the envelope
  * @method \DocuSign\eSign\Model\EnvelopeAttachmentsResult getAttachments(string $envelope_id) Returns a list of attachments associated with the specified envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetChunkedUploadOptions getChunkedUploadOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetChunkedUploadOptions getChunkedUploadOptions(array $options = ['set_include' => null])
  * @method \DocuSign\eSign\Model\ChunkedUploadResponse getChunkedUpload(string $chunked_upload_id, \DocuSign\eSign\Api\EnvelopesApi\GetChunkedUploadOptions $options = null) Retrieves the current metadata of a ChunkedUpload
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureOptions getConsumerDisclosureOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureOptions getConsumerDisclosureOptions(array $options = ['set_lang_code2' => null])
  * @method \DocuSign\eSign\Model\ConsumerDisclosure getConsumerDisclosure(string $envelope_id, string $lang_code, string $recipient_id, \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureOptions $options = null) Reserved
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureDefaultOptions getConsumerDisclosureDefaultOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureDefaultOptions getConsumerDisclosureDefaultOptions(array $options = ['set_lang_code' => null])
  * @method \DocuSign\eSign\Model\ConsumerDisclosure getConsumerDisclosureDefault(string $envelope_id, string $recipient_id, \DocuSign\eSign\Api\EnvelopesApi\GetConsumerDisclosureDefaultOptions $options = null) Gets the Electronic Record and Signature Disclosure associated with the account
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentOptions getDocumentOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentOptions getDocumentOptions(array $options = ['set_certificate' => null, 'set_encoding' => null, 'set_encrypt' => null, 'set_language' => null, 'set_recipient_id' => null, 'set_show_changes' => null, 'set_watermark' => null])
  * @method \SplFileObject getDocument(string $document_id, string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\GetDocumentOptions $options = null) Gets a document from an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentPageImageOptions getDocumentPageImageOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentPageImageOptions getDocumentPageImageOptions(array $options = ['set_dpi' => null, 'set_max_height' => null, 'set_max_width' => null, 'set_show_changes' => null])
  * @method \SplFileObject getDocumentPageImage(string $document_id, string $envelope_id, string $page_number, \DocuSign\eSign\Api\EnvelopesApi\GetDocumentPageImageOptions $options = null) Gets a page image from an envelope for display
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentTabsOptions getDocumentTabsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetDocumentTabsOptions getDocumentTabsOptions(array $options = ['set_page_numbers' => null])
  * @method \DocuSign\eSign\Model\Tabs getDocumentTabs(string $document_id, string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\GetDocumentTabsOptions $options = null) Returns tabs on the document
  * @method \DocuSign\eSign\Model\EmailSettings getEmailSettings(string $envelope_id) Gets the email setting overrides for an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetEnvelopeOptions getEnvelopeOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetEnvelopeOptions getEnvelopeOptions(array $options = ['set_advanced_update' => null, 'set_include' => null])
  * @method \DocuSign\eSign\Model\Envelope getEnvelope(string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\GetEnvelopeOptions $options = null) Gets the status of a envelope
  * @method \DocuSign\eSign\Model\DocumentHtmlDefinitionOriginals getEnvelopeDocumentHtmlDefinitions(string $document_id, string $envelope_id) Get the Original HTML Definition used to generate the Responsive HTML for a given document
  * @method \DocuSign\eSign\Model\DocumentHtmlDefinitionOriginals getEnvelopeHtmlDefinitions(string $envelope_id) Get the Original HTML Definition used to generate the Responsive HTML for the envelope
@@ -61,44 +61,44 @@ namespace DocuSign\Rest\Api;
  * @method \DocuSign\eSign\Model\LockInformation getLock(string $envelope_id) Gets envelope lock information
  * @method \DocuSign\eSign\Model\Notification getNotificationSettings(string $envelope_id) Gets envelope notification information
  * @method \DocuSign\eSign\Model\Tabs getPageTabs(string $document_id, string $envelope_id, string $page_number) Returns tabs on the specified page
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetPagesOptions getPagesOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetPagesOptions getPagesOptions(array $options = ['set_count' => null, 'set_dpi' => null, 'set_max_height' => null, 'set_max_width' => null, 'set_nocache' => null, 'set_show_changes' => null, 'set_start_position' => null])
  * @method \DocuSign\eSign\Model\PageImages getPages(string $document_id, string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\GetPagesOptions $options = null) Returns document page image(s) based on input
  * @method \DocuSign\eSign\Model\DocumentVisibilityList getRecipientDocumentVisibility(string $envelope_id, string $recipient_id) Returns document visibility for the recipients
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetRecipientInitialsImageOptions getRecipientInitialsImageOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetRecipientInitialsImageOptions getRecipientInitialsImageOptions(array $options = ['set_include_chrome' => null])
  * @method \SplFileObject getRecipientInitialsImage(string $envelope_id, string $recipient_id, \DocuSign\eSign\Api\EnvelopesApi\GetRecipientInitialsImageOptions $options = null) Gets the initials image for a user
  * @method \DocuSign\eSign\Model\UserSignature getRecipientSignature(string $envelope_id, string $recipient_id) Gets signature information for a signer or sign
- * @method \DocuSign\eSign\Api\EnvelopesApi\GetRecipientSignatureImageOptions getRecipientSignatureImageOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\GetRecipientSignatureImageOptions getRecipientSignatureImageOptions(array $options = ['set_include_chrome' => null])
  * @method \SplFileObject getRecipientSignatureImage(string $envelope_id, string $recipient_id, \DocuSign\eSign\Api\EnvelopesApi\GetRecipientSignatureImageOptions $options = null) Retrieve signature image information for a signer
  * @method \DocuSign\eSign\Model\DocumentVisibilityList getTemplateRecipientDocumentVisibility(string $recipient_id, string $template_id) Returns document visibility for the recipients
  * @method \DocuSign\eSign\Model\EnvelopeAuditEventResponse listAuditEvents(string $envelope_id) Gets the envelope audit events for an envelope
  * @method \DocuSign\eSign\Model\CustomFieldsEnvelope listCustomFields(string $envelope_id) Gets the custom field information for the specified envelope
  * @method \DocuSign\eSign\Model\DocumentFieldsInformation listDocumentFields(string $document_id, string $envelope_id) Gets the custom document fields from an  existing envelope document
  * @method \DocuSign\eSign\Model\EnvelopeDocumentsResult listDocuments(string $envelope_id) Gets a list of envelope documents
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListRecipientsOptions listRecipientsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListRecipientsOptions listRecipientsOptions(array $options = ['set_include_anchor_tab_locations' => null, 'set_include_extended' => null, 'set_include_tabs' => null])
  * @method \DocuSign\eSign\Model\Recipients listRecipients(string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\ListRecipientsOptions $options = null) Gets the status of recipients for an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListStatusOptions listStatusOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListStatusOptions listStatusOptions(array $options = ['set_ac_status' => null, 'set_block' => null, 'set_count' => null, 'set_email' => null, 'set_envelope_ids' => null, 'set_from_date' => null, 'set_from_to_status' => null, 'set_start_position' => null, 'set_status' => null, 'set_to_date' => null, 'set_transaction_ids' => null, 'set_user_name' => null])
  * @method \DocuSign\eSign\Model\EnvelopesInformation listStatus(\DocuSign\eSign\Model\EnvelopeIdsRequest $envelope_ids_request = null, \DocuSign\eSign\Api\EnvelopesApi\ListStatusOptions $options = null) Gets the envelope status for the specified envelopes
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListStatusChangesOptions listStatusChangesOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListStatusChangesOptions listStatusChangesOptions(array $options = ['set_ac_status' => null, 'set_block' => null, 'set_count' => null, 'set_custom_field' => null, 'set_email' => null, 'set_envelope_ids' => null, 'set_from_date' => null, 'set_from_to_status' => null, 'set_start_position' => null, 'set_status' => null, 'set_to_date' => null, 'set_transaction_ids' => null, 'set_user_name' => null])
  * @method \DocuSign\eSign\Model\EnvelopesInformation listStatusChanges(\DocuSign\eSign\Api\EnvelopesApi\ListStatusChangesOptions $options = null) Gets status changes for one or more envelopes
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListTabsOptions listTabsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListTabsOptions listTabsOptions(array $options = ['set_include_anchor_tab_locations' => null, 'set_include_metadata' => null])
  * @method \DocuSign\eSign\Model\Tabs listTabs(string $envelope_id, string $recipient_id, \DocuSign\eSign\Api\EnvelopesApi\ListTabsOptions $options = null) Gets the tabs information for a signer or sign
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesOptions listTemplatesOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesOptions listTemplatesOptions(array $options = ['set_include' => null])
  * @method \DocuSign\eSign\Model\TemplateInformation listTemplates(string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesOptions $options = null) Get List of Templates used in an Envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesForDocumentOptions listTemplatesForDocumentOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesForDocumentOptions listTemplatesForDocumentOptions(array $options = ['set_include' => null])
  * @method \DocuSign\eSign\Model\TemplateInformation listTemplatesForDocument(string $document_id, string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\ListTemplatesForDocumentOptions $options = null) Gets the templates associated with a document in an existing envelope
  * @method \DocuSign\eSign\Model\EnvelopeAttachmentsResult putAttachment(string $attachment_id, string $envelope_id, \DocuSign\eSign\Model\Attachment $attachment = null) Add an attachment to a DRAFT or IN
  * @method \DocuSign\eSign\Model\EnvelopeAttachmentsResult putAttachments(string $envelope_id, \DocuSign\eSign\Model\EnvelopeAttachmentsRequest $envelope_attachments_request = null) Add one or more attachments to a DRAFT or IN
  * @method void rotateDocumentPage(string $document_id, string $envelope_id, string $page_number, \DocuSign\eSign\Model\PageRequest $page_request = null) Rotates page image from an envelope for display
- * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateOptions updateOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateOptions updateOptions(array $options = ['set_advanced_update' => null, 'set_resend_envelope' => null])
  * @method \DocuSign\eSign\Model\EnvelopeUpdateSummary update(string $envelope_id, \DocuSign\eSign\Model\Envelope $envelope = null, \DocuSign\eSign\Api\EnvelopesApi\UpdateOptions $options = null) Send Draft Envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateChunkedUploadOptions updateChunkedUploadOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateChunkedUploadOptions updateChunkedUploadOptions(array $options = ['set_action' => null])
  * @method \DocuSign\eSign\Model\ChunkedUploadResponse updateChunkedUpload(string $chunked_upload_id, \DocuSign\eSign\Api\EnvelopesApi\UpdateChunkedUploadOptions $options = null) Integrity
  * @method \DocuSign\eSign\Model\ChunkedUploadResponse updateChunkedUploadPart(string $chunked_upload_id, string $chunked_upload_part_seq, \DocuSign\eSign\Model\ChunkedUploadRequest $chunked_upload_request = null) Add a chunk
  * @method \DocuSign\eSign\Model\CustomFields updateCustomFields(string $envelope_id, \DocuSign\eSign\Model\CustomFields $custom_fields = null) Updates envelope custom fields in an envelope
- * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentOptions updateDocumentOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentOptions updateDocumentOptions(array $options = ['set_apply_document_fields' => null])
  * @method void updateDocument(string $document_id, string $envelope_id, \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentOptions $options = null) Adds a document to an existing draft envelope
  * @method \DocuSign\eSign\Model\DocumentFieldsInformation updateDocumentFields(string $document_id, string $envelope_id, \DocuSign\eSign\Model\DocumentFieldsInformation $document_fields_information = null) Updates existing custom document fields in an existing envelope document
- * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentsOptions updateDocumentsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentsOptions updateDocumentsOptions(array $options = ['set_apply_document_fields' => null, 'set_persist_tabs' => null])
  * @method \DocuSign\eSign\Model\EnvelopeDocumentsResult updateDocuments(string $envelope_id, \DocuSign\eSign\Model\EnvelopeDefinition $envelope_definition = null, \DocuSign\eSign\Api\EnvelopesApi\UpdateDocumentsOptions $options = null) Adds one or more documents to an existing envelope document
  * @method \DocuSign\eSign\Model\EmailSettings updateEmailSettings(string $envelope_id, \DocuSign\eSign\Model\EmailSettings $email_settings = null) Updates the email setting overrides for an envelope
  * @method \DocuSign\eSign\Model\LockInformation updateLock(string $envelope_id, \DocuSign\eSign\Model\LockRequest $lock_request = null) Updates an envelope lock
@@ -106,7 +106,7 @@ namespace DocuSign\Rest\Api;
  * @method \DocuSign\eSign\Model\DocumentVisibilityList updateRecipientDocumentVisibility(string $envelope_id, string $recipient_id, \DocuSign\eSign\Model\DocumentVisibilityList $document_visibility_list = null) Updates document visibility for the recipients
  * @method void updateRecipientInitialsImage(string $envelope_id, string $recipient_id) Sets the initials image for an accountless signer
  * @method void updateRecipientSignatureImage(string $envelope_id, string $recipient_id) Sets the signature image for an accountless signer
- * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateRecipientsOptions updateRecipientsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\EnvelopesApi\UpdateRecipientsOptions updateRecipientsOptions(array $options = ['set_offline_signing' => null, 'set_resend_envelope' => null])
  * @method \DocuSign\eSign\Model\RecipientsUpdateSummary updateRecipients(string $envelope_id, \DocuSign\eSign\Model\Recipients $recipients = null, \DocuSign\eSign\Api\EnvelopesApi\UpdateRecipientsOptions $options = null) Updates recipients in a draft envelope or corrects recipient information for an in process envelope
  * @method \DocuSign\eSign\Model\DocumentVisibilityList updateRecipientsDocumentVisibility(string $envelope_id, \DocuSign\eSign\Model\DocumentVisibilityList $document_visibility_list = null) Updates document visibility for the recipients
  * @method \DocuSign\eSign\Model\Tabs updateTabs(string $envelope_id, string $recipient_id, \DocuSign\eSign\Model\Tabs $tabs = null) Updates the tabs for a recipient

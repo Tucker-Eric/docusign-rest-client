@@ -43,7 +43,16 @@ function createApiClassDocblock($classname)
                     $type = $types[$k] ?: getParamType($params, $varnames[$k]);
                     // If this returns an option type then we need to add that method
                     if (stripos($type, $vendorClassname . '\\' . ucfirst($method->name) . 'Options') !== false) {
-                        $methods[] = ' * @method ' . $type . ' ' . $method->name . 'Options(array $options = [])';
+                        $setters = array_filter((new ReflectionClass($type))->getMethods(), static function (ReflectionMethod $method) {
+                            // Only want setters because that's what the class supports
+                            return strpos($method->name, 'set') === 0;
+                        });
+                        // Create the array values with null defaults
+                        $arrayKeys = array_map(static function (ReflectionMethod $setter) {
+                            return "'" . strtolower(preg_replace('/[A-Z]([A-Z](?![a-z]))*/', '_$0', lcfirst($setter->name))) . "' => null";
+                        }, $setters);
+
+                        $methods[] = ' * @method ' . $type . ' ' . $method->name . 'Options(array $options = [' . implode(', ', $arrayKeys) . '])';
                     }
                     // If there is still no type we skip it
                     $paramDoc[] = ($type ? $type . ' ' : '')
@@ -125,7 +134,7 @@ TEMPLATE;
     }
 }
 
-function createClientApiEndpoints()
+function generateClientDocBlocks()
 {
     $docblock = ['/**', ' * Class Client'];
     foreach (glob(API_DIR . '/*.php') as $file) {
@@ -137,37 +146,26 @@ function createClientApiEndpoints()
         }
     }
 
-
     foreach (glob(DOCUSIGN_SRC_DIR . '/Model/*.php') as $modelFile) {
         $modelBaseClass = str_replace('.php', '', basename($modelFile));
         $modelClass = '\\DocuSign\\eSign\\Model\\' . $modelBaseClass;
-        $setters = $modelClass::setters();
         $constructorArray = implode(', ', array_map(static function ($prop) {
             return "'$prop' => null";
-        }, array_keys($setters)));
+        }, array_keys($modelClass::setters())));
         $docblock[] = ' * @method ' . $modelClass . ' ' . lcfirst($modelBaseClass) . '(array $props = [' . $constructorArray . '])';
     }
 
-
     $docblock[] = ' */';
+
+    $clientReflection = new ReflectionClass(\DocuSign\Rest\Client::class);
+
     $client = SRC_DIR . '/Client.php';
-    $content = removeClassDocblock(file_get_contents($client));
-    $content = addClassDocBlock($content, implode("\n", $docblock));
+    $content = str_replace($clientReflection->getDocComment(), implode("\n", $docblock), file_get_contents($client));
     echo 'Writing Client';
     file_put_contents($client, $content);
 }
 
-function removeClassDocblock(ReflectionClass $class)
-{
-//    return $class->getDocComment()
-    return preg_replace('/\/\*\*\n(?:[\n]|.)+(?=\*\/)\*\/\n(class\s[^\n]+)/m', '$1', $content);
-}
-
-function addClassDocBlock($content, $docBlock)
-{
-    return preg_replace('/(class\s+\w+[^\n]+)/', $docBlock . "\n" . '$1', $content);
-}
-
+// These come first because client docblocks rely on them
 generateApiClasses();
-//applyApiDocblocs();
-//createClientApiEndpoints();
+// Generates docblocks for our API implementation
+generateClientDocBlocks();

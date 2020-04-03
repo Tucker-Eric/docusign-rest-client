@@ -13,15 +13,18 @@ use DocuSign\eSign\Configuration;
  * @property-read Api\Billing $billing
  * @property-read Api\BulkEnvelopes $bulkEnvelopes
  * @property-read Api\CloudStorage $cloudStorage
+ * @property-read Api\Comments $comments
  * @property-read Api\Connect $connect
  * @property-read Api\CustomTabs $customTabs
  * @property-read Api\Diagnostics $diagnostics
  * @property-read Api\Envelopes $envelopes
  * @property-read Api\Folders $folders
  * @property-read Api\Groups $groups
+ * @property-read Api\Notary $notary
  * @property-read Api\PowerForms $powerForms
  * @property-read Api\SigningGroups $signingGroups
  * @property-read Api\Templates $templates
+ * @property-read Api\TrustServiceProviders $trustServiceProviders
  * @property-read Api\Users $users
  * @property-read Api\Workspaces $workspaces
  * @method \DocuSign\eSign\Model\AccountAddress accountAddress(array $props = ['address1' => null, 'address2' => null, 'city' => null, 'country' => null, 'email' => null, 'fax' => null, 'first_name' => null, 'last_name' => null, 'phone' => null, 'postal_code' => null, 'state' => null, 'supported_countries' => null])

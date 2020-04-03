@@ -11,7 +11,7 @@ namespace DocuSign\Rest\Api;
  * @method \DocuSign\eSign\Model\DiagnosticsSettingsInformation getRequestLogSettings() Gets the API request logging settings
  * @method \DocuSign\eSign\Model\ResourceInformation getResources() Lists resources for REST version specified
  * @method \DocuSign\eSign\Model\ServiceInformation getService() Retrieves the available REST API versions
- * @method \DocuSign\eSign\Api\DiagnosticsApi\ListRequestLogsOptions listRequestLogsOptions(array $options = [])
+ * @method \DocuSign\eSign\Api\DiagnosticsApi\ListRequestLogsOptions listRequestLogsOptions(array $options = ['set_encoding' => null])
  * @method \DocuSign\eSign\Model\ApiRequestLogsResult listRequestLogs(\DocuSign\eSign\Api\DiagnosticsApi\ListRequestLogsOptions $options = null) Gets the API request logging log files
  * @method \DocuSign\eSign\Model\DiagnosticsSettingsInformation updateRequestLogSettings(\DocuSign\eSign\Model\DiagnosticsSettingsInformation $diagnostics_settings_information = null) Enables or disables API request logging for troubleshooting
  */
