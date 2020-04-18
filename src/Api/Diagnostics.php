@@ -2,18 +2,22 @@
 
 namespace DocuSign\Rest\Api;
 
+use DocuSign\eSign\Api as Api;
+use \DocuSign\eSign\Model as Models;
+
 /**
  * Class Diagnostics
+ * @method Api\DiagnosticsApi getClient()
  * @method \DocuSign\eSign\Client\ApiClient getApiClient() Get API client
- * @method \DocuSign\eSign\Api\DiagnosticsApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
+ * @method Api\DiagnosticsApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
  * @method void deleteRequestLogs() Deletes the request log files
  * @method \SplFileObject getRequestLog(string $request_log_id) Gets a request logging log file
- * @method \DocuSign\eSign\Model\DiagnosticsSettingsInformation getRequestLogSettings() Gets the API request logging settings
- * @method \DocuSign\eSign\Model\ResourceInformation getResources() Lists resources for REST version specified
- * @method \DocuSign\eSign\Model\ServiceInformation getService() Retrieves the available REST API versions
- * @method \DocuSign\eSign\Api\DiagnosticsApi\ListRequestLogsOptions listRequestLogsOptions(array $options = ['set_encoding' => null])
- * @method \DocuSign\eSign\Model\ApiRequestLogsResult listRequestLogs(\DocuSign\eSign\Api\DiagnosticsApi\ListRequestLogsOptions $options = null) Gets the API request logging log files
- * @method \DocuSign\eSign\Model\DiagnosticsSettingsInformation updateRequestLogSettings(\DocuSign\eSign\Model\DiagnosticsSettingsInformation $diagnostics_settings_information = null) Enables or disables API request logging for troubleshooting
+ * @method Models\DiagnosticsSettingsInformation getRequestLogSettings() Gets the API request logging settings
+ * @method Models\ResourceInformation getResources() Lists resources for REST version specified
+ * @method Models\ServiceInformation getService() Retrieves the available REST API versions
+ * @method Api\DiagnosticsApi\ListRequestLogsOptions listRequestLogsOptions(array $options = ['set_encoding' => null])
+ * @method Models\ApiRequestLogsResult listRequestLogs(Api\DiagnosticsApi\ListRequestLogsOptions $options = null) Gets the API request logging log files
+ * @method Models\DiagnosticsSettingsInformation updateRequestLogSettings(Models\DiagnosticsSettingsInformation $diagnostics_settings_information = null) Enables or disables API request logging for troubleshooting
  */
 class Diagnostics extends BaseApi
 {

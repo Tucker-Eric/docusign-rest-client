@@ -6,24 +6,37 @@ require_once __DIR__ . '/../vendor/autoload.php';
 const DOCUSIGN_SRC_DIR = __DIR__ . '/../vendor/docusign/esign-client/src';
 const DOCUSIGN_NAMESPACE = '\\DocuSign\\eSign';
 const DOCUSIGN_API_NAMESPACE = DOCUSIGN_NAMESPACE . '\\Api';
+const DOCUSIGN_API_NAMESPACE_ALIAS = 'Api';
+
+const DOCUSIGN_MODEL_NAMESPACE = DOCUSIGN_NAMESPACE . '\\Model';
+const DOCUSIGN_MODEL_NAMESPACE_ALIAS = 'Models';
 
 const SRC_DIR = __DIR__ . '/../src';
 const API_DIR = SRC_DIR . '/Api';
 
+$apisUsingAccountId = [];
+
 function createApiClassDocblock($classname)
 {
-    $vendorClassname = DOCUSIGN_API_NAMESPACE . '\\' . $classname . 'Api';
-    $reflectionClass = new ReflectionClass($vendorClassname);
-    $publicMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
-    $methods = [];
-    foreach ($publicMethods as $method) {
-        if (strpos($method->name, 'WithHttpInfo') !== false || strpos($method->name, '_') !== false) {
-            continue;
-        }
+    global $apisUsingAccountId;
 
+    $vendorClassname = DOCUSIGN_API_NAMESPACE_ALIAS . '\\' . $classname . 'Api';
+
+    $reflectionClass = new ReflectionClass(DOCUSIGN_API_NAMESPACE . '\\' . $classname . 'Api');
+    $publicMethods = $reflectionClass->getMethods(ReflectionMethod::IS_PUBLIC);
+    $methods = [' * @method ' . $vendorClassname . ' getClient()'];
+    foreach ($publicMethods as $method) {
         $params = $method->getParameters();
         if (count($params) > 0 && $params[0]->name === 'account_id') {
+            // Some methods/classes don't require account_id
+            // Because we verify we're authenticated before making a request
+            $apisUsingAccountId[$classname][$method->name] = true;
             array_shift($params);
+        }
+
+        // We'll support the `WithHttpInfo` to inject the account_id for debugging but the base methods should be used outside of that
+        if (strpos($method->name, 'WithHttpInfo') !== false || strpos($method->name, '_') !== false) {
+            continue;
         }
 
         $description = '';
@@ -70,16 +83,20 @@ function createApiClassDocblock($classname)
 
             if ($returnMatch[1] === $classname . 'Api') {
                 // If this returns itself we need to give the FQCN
-                $returnMatch[1] = DOCUSIGN_API_NAMESPACE . '\\' . $returnMatch[1];
+                $returnMatch[1] = DOCUSIGN_API_NAMESPACE_ALIAS . '\\' . $returnMatch[1];
             }
 
             $returnType = $returnMatch[1];
         }
-
         $methods[] = ' * @method ' . $returnType . ' ' . $method->name . '(' . implode(', ', $paramDoc) . ') ' . $description;
     }
 
-    $methodBlock = implode("\n", $methods);
+    // Replace the namespace with the aliases
+    $methodBlock = str_replace(
+        [DOCUSIGN_API_NAMESPACE, DOCUSIGN_MODEL_NAMESPACE],
+        [DOCUSIGN_API_NAMESPACE_ALIAS, DOCUSIGN_MODEL_NAMESPACE_ALIAS],
+        implode("\n", $methods)
+    );
 
     return <<<DOCBLOC
 /**
@@ -113,20 +130,33 @@ function generateApiClasses()
             unlink($apiFile);
         }
     }
-
+    global $apisUsingAccountId;
     // Only generate a 1:1 with docusign
     foreach (glob(DOCUSIGN_SRC_DIR . '/Api/*.php') as $apiFile) {
         $classname = str_replace('Api.php', '', basename($apiFile));
         $docBlock = createApiClassDocblock($classname);
+        $methodsUsingAccountId = array_map(static function ($var) {
+            return "'$var'";
+        }, array_keys($apisUsingAccountId[$classname] ?? []));
+        $usesAccountId = empty($methodsUsingAccountId)
+            ? ''
+            : "    protected \$methodsWithAccountId = [\n        " . implode(",\n        ", $methodsUsingAccountId) . "\n];";
+        $apiNamespace = preg_replace('/^\\\/', '', DOCUSIGN_API_NAMESPACE);
+        $apiNamespaceAlias = DOCUSIGN_API_NAMESPACE_ALIAS;
+        $modelNamespace = DOCUSIGN_MODEL_NAMESPACE;
+        $modelNamespaceAlias = DOCUSIGN_MODEL_NAMESPACE_ALIAS;
         $template = <<<TEMPLATE
 <?php
 
 namespace DocuSign\Rest\Api;
 
+use $apiNamespace as $apiNamespaceAlias;
+use $modelNamespace as $modelNamespaceAlias;
+
 $docBlock
 class $classname extends BaseApi
 {
-
+$usesAccountId
 }
 TEMPLATE;
 
@@ -152,7 +182,8 @@ function generateClientDocBlocks()
         $constructorArray = implode(', ', array_map(static function ($prop) {
             return "'$prop' => null";
         }, array_keys($modelClass::setters())));
-        $docblock[] = ' * @method ' . $modelClass . ' ' . lcfirst($modelBaseClass) . '(array $props = [' . $constructorArray . '])';
+        // Client aliases the models namespace as Models in the client class
+        $docblock[] = ' * @method Models\\' . $modelBaseClass . ' ' . lcfirst($modelBaseClass) . '(array $props = [' . $constructorArray . '])';
     }
 
     $docblock[] = ' */';
