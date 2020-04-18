@@ -1,12 +1,15 @@
 <?php
 
+namespace Docusign\Rest\Tests;
+
+use DocuSign\Rest\Client;
 use PHPUnit\Framework\TestCase;
 
 class SignatureRequestTest extends TestCase
 {
 	public function testSignatureRequest()
 	{
-		$docusign = new \DocuSign\Rest\Client([
+		$docusign = new Client([
 			'username' 		 => USERNAME,
 			'password' 		 => PASSWORD,
 			'integrator_key' => INTEGRATOR_KEY,

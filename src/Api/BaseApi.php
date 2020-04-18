@@ -2,11 +2,14 @@
 
 namespace DocuSign\Rest\Api;
 
+use DocuSign\eSign\Client\ApiException;
 use DocuSign\Rest\Client as ApiClient;
 use DocuSign\Rest\Exceptions\ClassNotFoundException;
 
 abstract class BaseApi
 {
+    protected const DOCUSIGN_API_NAMESPACE = 'DocuSign\\eSign\\Api';
+
     /**
      * An array of Docusign option objects
      *
@@ -20,16 +23,20 @@ abstract class BaseApi
     protected $apiClient;
 
     /**
-     * @var \Docusign\Esign\Api\{client}Api
+     * Methods that need the account_id injected
+     * @var array
      */
-    protected $client;
+    protected $methodsWithAccountId = [];
 
     /**
-     * The first parameter of every call is the account_id
-     *
-     * @var bool
+     * @var \Docusign\Esign\Api\{client}Api
      */
-    protected $usesAccountId = true;
+    private $client;
+
+    /**
+     * @var string
+     */
+    private $_proxiedApi;
 
     /**
      * BaseApi constructor.
@@ -38,13 +45,19 @@ abstract class BaseApi
     public function __construct(ApiClient $apiClient)
     {
         $this->apiClient = $apiClient;
-        $this->initClient();
+        $this->_proxiedApi = str_replace(__NAMESPACE__, self::DOCUSIGN_API_NAMESPACE, \get_class($this)) . 'Api';
     }
 
-    private function initClient()
+    /**
+     * @return \Docusign\Esign\Api\{client}
+     */
+    public function getClient()
     {
-        $docusignClass = str_replace(__NAMESPACE__, "DocuSign\\eSign\\Api", get_class($this)) . 'Api';
-        $this->client = new $docusignClass($this->apiClient->getClient());
+        if ($this->client) {
+            return $this->client;
+        }
+
+        return $this->client = $this->createClient();
     }
 
     /**
@@ -52,11 +65,12 @@ abstract class BaseApi
      * @param $method
      * @param $args
      * @return mixed
+     * @throws ApiException
      */
     public function __call($method, $args)
     {
         // If the method matches this signature instantiate the options
-        if (preg_match('/^\w+Options$/', $method)) {
+        if (\preg_match('/^\w+Options$/', $method)) {
             return $this->setOptionsObject($method, $args);
         }
 
@@ -65,15 +79,15 @@ abstract class BaseApi
             $this->apiClient->authenticate();
             // If the host has changed, update host on client config
             if ($host !== $this->apiClient->getHost()) {
-                $this->initClient();
+                $this->apiClient->setHost($host);
             }
         }
 
-        if ($this->usesAccountId) {
-            array_unshift($args, $this->apiClient->getAccountId());
+        if (\in_array($method, $this->methodsWithAccountId ?? [], true)) {
+            \array_unshift($args, $this->apiClient->getAccountId());
         }
 
-        return call_user_func_array([$this->client, $method], $args);
+        return \call_user_func_array([$this->getClient(), $method], $args);
     }
 
     /**
@@ -89,9 +103,9 @@ abstract class BaseApi
             return $this->_options;
         }
 
-        if (!array_key_exists($method, $this->_options)) {
-            $optionsClass = get_class($this->client) . "\\" . ucfirst($method);
-            if (!class_exists($optionsClass)) {
+        if (!\array_key_exists($method, $this->_options)) {
+            $optionsClass = \get_class($this->getClient()) . "\\" . \ucfirst($method);
+            if (!\class_exists($optionsClass)) {
                 throw new ClassNotFoundException("$optionsClass Does Not Exist As Defined In ->getOptions($method)");
             }
             $this->_options[$method] = new $optionsClass;
@@ -109,18 +123,18 @@ abstract class BaseApi
     public function setOptionsObject($method, $args)
     {
         // All options are stored as a child namespace so the below is possible
-        $class = get_class($this->client) . "\\" . ucfirst($method);
+        $class = \get_class($this->getClient()) . "\\" . \ucfirst($method);
 
         // If there is no array passed to the function just return the object
-        if (!is_array($args[0]) || count($args[0]) === 0) {
+        if (!\is_array($args[0]) || \count($args[0]) === 0) {
             return new $class;
         }
 
         $optionClass = new $class;
 
         foreach ($args[0] as $key => $val) {
-            $setterMethod = str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
-            if (method_exists($optionClass, 'set' . $setterMethod)) {
+            $setterMethod = \str_replace(' ', '', \ucwords(\str_replace('_', ' ', $key)));
+            if (\method_exists($optionClass, 'set' . $setterMethod)) {
                 $optionClass->{'set' . $setterMethod}($val);
             }
         }
@@ -128,5 +142,21 @@ abstract class BaseApi
         $this->_options[$method] = $optionClass;
 
         return $optionClass;
+    }
+
+    /**
+     * @return string
+     */
+    public function getApiClass(): string
+    {
+        return $this->_proxiedApi;
+    }
+
+    /**
+     * @return mixed
+     */
+    private function createClient()
+    {
+        return new $this->_proxiedApi($this->apiClient->getClient());
     }
 }
