@@ -10,8 +10,10 @@ use \DocuSign\eSign\Model as Models;
  * @method Api\EnvelopesApi getClient()
  * @method \DocuSign\eSign\Client\ApiClient getApiClient() Get API client
  * @method Api\EnvelopesApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
- * @method Models\DocumentTemplateList applyTemplate(string $envelope_id, Models\DocumentTemplateList $document_template_list = null) Adds templates to an envelope
- * @method Models\DocumentTemplateList applyTemplateToDocument(string $document_id, string $envelope_id, Models\DocumentTemplateList $document_template_list = null) Adds templates to a document in an  envelope
+ * @method Api\EnvelopesApi\ApplyTemplateOptions applyTemplateOptions(array $options = ['set_preserve_template_recipient' => null])
+ * @method Models\DocumentTemplateList applyTemplate(string $envelope_id, Models\DocumentTemplateList $document_template_list = null, Api\EnvelopesApi\ApplyTemplateOptions $options = null) Adds templates to an envelope
+ * @method Api\EnvelopesApi\ApplyTemplateToDocumentOptions applyTemplateToDocumentOptions(array $options = ['set_preserve_template_recipient' => null])
+ * @method Models\DocumentTemplateList applyTemplateToDocument(string $document_id, string $envelope_id, Models\DocumentTemplateList $document_template_list = null, Api\EnvelopesApi\ApplyTemplateToDocumentOptions $options = null) Adds templates to a document in an  envelope
  * @method Models\ChunkedUploadResponse createChunkedUpload(Models\ChunkedUploadRequest $chunked_upload_request = null) Initiate a new ChunkedUpload
  * @method Models\ViewUrl createConsoleView(Models\ConsoleViewRequest $console_view_request = null) Returns a URL to the authentication view UI
  * @method Models\ViewUrl createCorrectView(string $envelope_id, Models\CorrectViewRequest $correct_view_request = null) Returns a URL to the envelope correction UI
@@ -44,11 +46,14 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\Tabs deleteDocumentTabs(string $document_id, string $envelope_id, Models\Tabs $tabs = null) Deletes tabs from an envelope document
  * @method Models\EnvelopeDocumentsResult deleteDocuments(string $envelope_id, Models\EnvelopeDefinition $envelope_definition = null) Deletes documents from a draft envelope
  * @method Models\EmailSettings deleteEmailSettings(string $envelope_id) Deletes the email setting overrides for an envelope
+ * @method void deleteEnvelopeCorrectView(string $envelope_id, Models\CorrectViewRequest $correct_view_request = null) Revokes the correction view URL to the Envelope UI
  * @method void deleteEnvelopeTransferRules(string $envelope_transfer_rule_id) Delete envelope transfer rules for an account
+ * @method void deleteEnvelopeWorkflowDefinition(string $envelope_id) Delete the workflow definition for an envelope
  * @method Models\LockInformation deleteLock(string $envelope_id) Deletes an envelope lock
  * @method Models\Recipients deleteRecipient(string $envelope_id, string $recipient_id) Deletes a recipient from an envelope
  * @method Models\Recipients deleteRecipients(string $envelope_id, Models\Recipients $recipients = null) Deletes recipients from an envelope
  * @method Models\Tabs deleteTabs(string $envelope_id, string $recipient_id, Models\Tabs $tabs = null) Deletes the tabs associated with a recipient
+ * @method void deleteTemplateWorkflowDefinition(string $template_id) Delete the workflow definition for a template
  * @method void deleteTemplatesFromDocument(string $document_id, string $envelope_id, string $template_id) Deletes a template from a document in an existing envelope
  * @method void getAttachment(string $attachment_id, string $envelope_id) Retrieves an attachment from the envelope
  * @method Models\EnvelopeAttachmentsResult getAttachments(string $envelope_id) Returns a list of attachments associated with the specified envelope
@@ -73,6 +78,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\DocumentHtmlDefinitionOriginals getEnvelopeHtmlDefinitions(string $envelope_id) Get the Original HTML Definition used to generate the Responsive HTML for the envelope
  * @method Api\EnvelopesApi\GetEnvelopeTransferRulesOptions getEnvelopeTransferRulesOptions(array $options = ['set_count' => null, 'set_start_position' => null])
  * @method Models\EnvelopeTransferRuleInformation getEnvelopeTransferRules(Api\EnvelopesApi\GetEnvelopeTransferRulesOptions $options = null) Returns a list of envelope transfer rules in the specified account
+ * @method Models\Workflow getEnvelopeWorkflowDefinition(string $envelope_id) Returns the workflow definition for an envelope
  * @method Models\EnvelopeFormData getFormData(string $envelope_id) Returns envelope form data for an existing envelope
  * @method Models\LockInformation getLock(string $envelope_id) Gets envelope lock information
  * @method Models\Notification getNotificationSettings(string $envelope_id) Gets envelope notification information
@@ -87,6 +93,7 @@ use \DocuSign\eSign\Model as Models;
  * @method \SplFileObject getRecipientSignatureImage(string $envelope_id, string $recipient_id, Api\EnvelopesApi\GetRecipientSignatureImageOptions $options = null) Retrieve signature image information for a signer
  * @method void getTabsBlob(string $envelope_id) Get encrypted tabs for envelope
  * @method Models\DocumentVisibilityList getTemplateRecipientDocumentVisibility(string $recipient_id, string $template_id) Returns document visibility for the recipients
+ * @method Models\Workflow getTemplateWorkflowDefinition(string $template_id) Returns the workflow definition for a template
  * @method Models\EnvelopeAuditEventResponse listAuditEvents(string $envelope_id) Gets the envelope audit events for an envelope
  * @method Models\CustomFieldsEnvelope listCustomFields(string $envelope_id) Gets the custom field information for the specified envelope
  * @method Models\DocumentFieldsInformation listDocumentFields(string $document_id, string $envelope_id) Gets the custom document fields from an  existing envelope document
@@ -120,6 +127,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\EmailSettings updateEmailSettings(string $envelope_id, Models\EmailSettings $email_settings = null) Updates the email setting overrides for an envelope
  * @method Models\EnvelopeTransferRule updateEnvelopeTransferRule(string $envelope_transfer_rule_id, Models\EnvelopeTransferRule $envelope_transfer_rule = null) Update an envelope transfer rule for an account
  * @method Models\EnvelopeTransferRuleInformation updateEnvelopeTransferRules(Models\EnvelopeTransferRuleInformation $envelope_transfer_rule_information = null) Update envelope transfer rules for an account
+ * @method Models\Workflow updateEnvelopeWorkflowDefinition(string $envelope_id, Models\Workflow $workflow = null) Updates the envelope workflow definition for an envelope
  * @method Models\LockInformation updateLock(string $envelope_id, Models\LockRequest $lock_request = null) Updates an envelope lock
  * @method Models\Notification updateNotificationSettings(string $envelope_id, Models\EnvelopeNotificationRequest $envelope_notification_request = null) Sets envelope notification (Reminders
  * @method Models\DocumentVisibilityList updateRecipientDocumentVisibility(string $envelope_id, string $recipient_id, Models\DocumentVisibilityList $document_visibility_list = null) Updates document visibility for the recipients
@@ -132,6 +140,7 @@ use \DocuSign\eSign\Model as Models;
  * @method void updateTabsBlob(string $envelope_id) Update encrypted tabs for envelope
  * @method Models\TemplateDocumentVisibilityList updateTemplateRecipientDocumentVisibility(string $recipient_id, string $template_id, Models\TemplateDocumentVisibilityList $template_document_visibility_list = null) Updates document visibility for the recipients
  * @method Models\TemplateDocumentVisibilityList updateTemplateRecipientsDocumentVisibility(string $template_id, Models\TemplateDocumentVisibilityList $template_document_visibility_list = null) Updates document visibility for the recipients
+ * @method Models\Workflow updateTemplateWorkflowDefinition(string $template_id, Models\Workflow $workflow = null) Updates the workflow definition for a template
  */
 class Envelopes extends BaseApi
 {
@@ -200,8 +209,12 @@ class Envelopes extends BaseApi
         'deleteDocumentsWithHttpInfo',
         'deleteEmailSettings',
         'deleteEmailSettingsWithHttpInfo',
+        'deleteEnvelopeCorrectView',
+        'deleteEnvelopeCorrectViewWithHttpInfo',
         'deleteEnvelopeTransferRules',
         'deleteEnvelopeTransferRulesWithHttpInfo',
+        'deleteEnvelopeWorkflowDefinition',
+        'deleteEnvelopeWorkflowDefinitionWithHttpInfo',
         'deleteLock',
         'deleteLockWithHttpInfo',
         'deleteRecipient',
@@ -210,6 +223,8 @@ class Envelopes extends BaseApi
         'deleteRecipientsWithHttpInfo',
         'deleteTabs',
         'deleteTabsWithHttpInfo',
+        'deleteTemplateWorkflowDefinition',
+        'deleteTemplateWorkflowDefinitionWithHttpInfo',
         'deleteTemplatesFromDocument',
         'deleteTemplatesFromDocumentWithHttpInfo',
         'getAttachment',
@@ -240,6 +255,8 @@ class Envelopes extends BaseApi
         'getEnvelopeHtmlDefinitionsWithHttpInfo',
         'getEnvelopeTransferRules',
         'getEnvelopeTransferRulesWithHttpInfo',
+        'getEnvelopeWorkflowDefinition',
+        'getEnvelopeWorkflowDefinitionWithHttpInfo',
         'getFormData',
         'getFormDataWithHttpInfo',
         'getLock',
@@ -262,6 +279,8 @@ class Envelopes extends BaseApi
         'getTabsBlobWithHttpInfo',
         'getTemplateRecipientDocumentVisibility',
         'getTemplateRecipientDocumentVisibilityWithHttpInfo',
+        'getTemplateWorkflowDefinition',
+        'getTemplateWorkflowDefinitionWithHttpInfo',
         'listAuditEvents',
         'listAuditEventsWithHttpInfo',
         'listCustomFields',
@@ -310,6 +329,8 @@ class Envelopes extends BaseApi
         'updateEnvelopeTransferRuleWithHttpInfo',
         'updateEnvelopeTransferRules',
         'updateEnvelopeTransferRulesWithHttpInfo',
+        'updateEnvelopeWorkflowDefinition',
+        'updateEnvelopeWorkflowDefinitionWithHttpInfo',
         'updateLock',
         'updateLockWithHttpInfo',
         'updateNotificationSettings',
@@ -331,6 +352,8 @@ class Envelopes extends BaseApi
         'updateTemplateRecipientDocumentVisibility',
         'updateTemplateRecipientDocumentVisibilityWithHttpInfo',
         'updateTemplateRecipientsDocumentVisibility',
-        'updateTemplateRecipientsDocumentVisibilityWithHttpInfo'
+        'updateTemplateRecipientsDocumentVisibilityWithHttpInfo',
+        'updateTemplateWorkflowDefinition',
+        'updateTemplateWorkflowDefinitionWithHttpInfo'
 ];
 }

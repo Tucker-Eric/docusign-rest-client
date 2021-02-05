@@ -12,6 +12,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Api\BillingApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
  * @method Models\BillingPlanResponse getBillingPlan(string $billing_plan_id) Get the billing plan details
  * @method Models\CreditCardInformation getCreditCardInfo() Get metadata for a given credit card
+ * @method Models\DowngradRequestBillingInfoResponse getDowngradeRequestBillingInfo() Returns downgrade plan information for the specified account
  * @method Models\BillingInvoice getInvoice(string $invoice_id) Retrieves a billing invoice
  * @method Models\BillingPaymentItem getPayment(string $payment_id) Gets billing payment information for a specific payment
  * @method Api\BillingApi\GetPlanOptions getPlanOptions(array $options = ['set_include_credit_card_information' => null, 'set_include_metadata' => null, 'set_include_successor_plans' => null])
@@ -33,6 +34,8 @@ class Billing extends BaseApi
     protected $methodsWithAccountId = [
         'getCreditCardInfo',
         'getCreditCardInfoWithHttpInfo',
+        'getDowngradeRequestBillingInfo',
+        'getDowngradeRequestBillingInfoWithHttpInfo',
         'getInvoice',
         'getInvoiceWithHttpInfo',
         'getPayment',

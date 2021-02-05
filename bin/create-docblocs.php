@@ -178,12 +178,14 @@ function generateClientDocBlocks()
 
     foreach (glob(DOCUSIGN_SRC_DIR . '/Model/*.php') as $modelFile) {
         $modelBaseClass = str_replace('.php', '', basename($modelFile));
-        $modelClass = '\\DocuSign\\eSign\\Model\\' . $modelBaseClass;
-        $constructorArray = implode(', ', array_map(static function ($prop) {
-            return "'$prop' => null";
-        }, array_keys($modelClass::setters())));
-        // Client aliases the models namespace as Models in the client class
-        $docblock[] = ' * @method Models\\' . $modelBaseClass . ' ' . lcfirst($modelBaseClass) . '(array $props = [' . $constructorArray . '])';
+        $modelClass = '\\DocuSign\\eSign\\Model\\' . $modelBaseClass;        
+        if(is_callable([$modelClass, 'setters'])) {
+            $constructorArray = implode(', ', array_map(static function ($prop) {
+                return "'$prop' => null";
+            }, array_keys($modelClass::setters())));
+            // Client aliases the models namespace as Models in the client class
+            $docblock[] = ' * @method Models\\' . $modelBaseClass . ' ' . lcfirst($modelBaseClass) . '(array $props = [' . $constructorArray . '])';
+        }
     }
 
     $docblock[] = ' */';

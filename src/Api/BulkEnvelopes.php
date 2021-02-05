@@ -18,6 +18,9 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\BulkRecipientsUpdateResponse deleteRecipients(string $envelope_id, string $recipient_id) Deletes the bulk recipient file from an envelope
  * @method Api\BulkEnvelopesApi\GetOptions getOptions(array $options = ['set_count' => null, 'set_include' => null, 'set_start_position' => null])
  * @method Models\BulkEnvelopeStatus get(string $batch_id, Api\BulkEnvelopesApi\GetOptions $options = null) Gets the status of a specified bulk send operation
+ * @method Models\BulkSendBatchStatus getBulkSendBatchStatus(string $bulk_send_batch_id) Gets a specific bulk send batch status
+ * @method Api\BulkEnvelopesApi\GetBulkSendBatchesOptions getBulkSendBatchesOptions(array $options = ['set_batch_ids' => null, 'set_count' => null, 'set_start_position' => null, 'set_status' => null])
+ * @method Models\BulkSendBatchSummaries getBulkSendBatches(Api\BulkEnvelopesApi\GetBulkSendBatchesOptions $options = null) Returns a list of bulk send batch satuses initiated by account
  * @method Models\BulkSendingList getBulkSendList(string $bulk_send_list_id) Gets a specific bulk send list
  * @method Models\BulkSendingListSummaries getBulkSendLists() Lists top
  * @method Api\BulkEnvelopesApi\GetRecipientsOptions getRecipientsOptions(array $options = ['set_include_tabs' => null, 'set_start_position' => null])
@@ -42,6 +45,10 @@ class BulkEnvelopes extends BaseApi
         'deleteRecipientsWithHttpInfo',
         'get',
         'getWithHttpInfo',
+        'getBulkSendBatchStatus',
+        'getBulkSendBatchStatusWithHttpInfo',
+        'getBulkSendBatches',
+        'getBulkSendBatchesWithHttpInfo',
         'getBulkSendList',
         'getBulkSendListWithHttpInfo',
         'getBulkSendLists',
