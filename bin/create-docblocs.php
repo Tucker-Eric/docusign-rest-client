@@ -115,7 +115,7 @@ function getParamType(array $parameters, string $param)
 {
     foreach ($parameters as $p) {
         if ($p->name === preg_replace('/^\$/', '', $param) && $p->hasType()) {
-            return "\\" . ((string)$p->getType());
+            return "\\" . preg_replace('/^\?/', '', (string)$p->getType());
         }
     }
 
