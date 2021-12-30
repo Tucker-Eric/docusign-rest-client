@@ -8,8 +8,9 @@ use \DocuSign\eSign\Model as Models;
 /**
  * Class TrustServiceProviders
  * @method Api\TrustServiceProvidersApi getClient()
- * @method \DocuSign\eSign\Client\ApiClient getApiClient() Get API client
- * @method Api\TrustServiceProvidersApi setApiClient(\DocuSign\eSign\Client\ApiClient $apiClient) Set the API client
+ * @method DocuSign\eSign\Client\ApiClient getApiClient() Get API client
+ * @method self setApiClient(ApiClient $apiClient) Set the API client
+ * @method string updateResourcePath(string $resourcePath, string $baseName, string $paramName) Update
  * @method Models\AccountSeals getSealProviders() Returns Account available seals for specified account
  */
 class TrustServiceProviders extends BaseApi
