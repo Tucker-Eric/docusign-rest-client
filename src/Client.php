@@ -551,25 +551,39 @@ class Client
     protected $host = 'https://demo.docusign.net/restapi';
 
     /**
-     * Docusign Username
-     *
-     * @var string|null
-     */
-    protected $username;
-
-    /**
-     * Docusign Password
-     *
-     * @var string|null
-     */
-    protected $password;
-
-    /**
      * Docusign Integrator Key
      *
      * @var string|null
      */
     protected $integrator_key;
+
+    /**
+     * Docusign Auth Server
+     *
+     * @var string|null
+     */
+    protected $auth_server;
+
+    /**
+     * Docusign RSA Private Key
+     *
+     * @var string|null
+     */
+    protected $private_key;
+
+    /**
+     * Docusign JWT expiry in minutes
+     *
+     * @var int
+     */
+    protected $jwt_expiry = 60;
+
+    /**
+     * Docusign User ID
+     *
+     * @var string|null
+     */
+    protected $impersonated_user_id;
 
     /**
      * Docusign Account Id
@@ -598,23 +612,25 @@ class Client
 
     public function __construct(array $params = [])
     {
-        $this->host = $params['host'] ?? null;
-        $this->username = $params['username'] ?? null;
-        $this->password = $params['password'] ?? null;
-        $this->integrator_key = $params['integrator_key'] ?? null;
+        $this->host = $params['host'] ?? config('docusign.host');
+        $this->auth_server = $params['auth_server'] ?? 'account-d.docusign.com';
+        $this->jwt_scope = $params['jwt_scope'] ?? "signature impersonation";
+        $this->integrator_key = $params['integrator_key'] ?? config('docusign.integrator_key');
+        $this->impersonated_user_id = $params['impersonated_user_id'] ?? config('docusign.impersonated_user_id');
+        $this->private_key = $params['private_key'] ?? config('docusign.private_key');
     }
 
     /**
-     * REQUIRED $options ['username' => $username, 'password' => $password, 'integrator_key' => $key]
+     * REQUIRED $options ['impersonated_user_id' => $impersonated_user_id, 'private_key' => $private_key, 'integrator_key' => $key]
      *
-     * OPTIONAL $options ['host' => $host]
+     * OPTIONAL $options ['host' => $host, 'auth_server' => $auth_server, 'jwt_scope' => $jwt_scope ]
      *
      * @param array $options
      * @return Configuration
      */
     public function createConfiguration(array $options = []): Configuration
     {
-        foreach (['username', 'password', 'integrator_key'] as $requiredKey) {
+        foreach (['impersonated_user_id', 'integrator_key', 'private_key'] as $requiredKey) {
             if (empty($options[$requiredKey])) {
                 throw new \InvalidArgumentException(
                     "Cannot create configuration. [$requiredKey => \$value] is missing or empty"
@@ -622,12 +638,7 @@ class Client
             }
         }
 
-        return (new Configuration)->setHost($options['host'] ?? $this->host)
-            ->addDefaultHeader('X-DocuSign-Authentication', \json_encode([
-                'Username'      => $options['username'],
-                'Password'      => $options['password'],
-                'IntegratorKey' => $options['integrator_key']
-            ]));
+        return (new Configuration)->setHost($options['host'] ?? $this->host);
     }
 
     /**
@@ -636,10 +647,12 @@ class Client
     public function getConfiguration(): Configuration
     {
         return $this->createConfiguration([
-            'username'       => $this->username,
-            'password'       => $this->password,
-            'integrator_key' => $this->integrator_key,
-            'host'           => $this->host
+            'impersonated_user_id' => $this->impersonated_user_id,
+            'private_key'          => $this->private_key,
+            'integrator_key'       => $this->integrator_key,
+            'host'                 => $this->host,
+            'auth_server'          => $this->auth_server,
+            'jwt_scope'            => $this->jwt_scope,
         ]);
     }
 
@@ -699,8 +712,6 @@ class Client
         }
 
         return $docusignModel;
-
-
     }
 
     /**
@@ -733,23 +744,38 @@ class Client
     public function authenticate(): self
     {
         if (!$this->authenticated || !isset($this->account_id)) {
-            $accounts = $this->authentication->login();
-            $login_accounts = $accounts->getLoginAccounts();
-            $account = $login_accounts[0];
+            $accounts = $this->login();
+            $account = $accounts[0];
             $this->account_id = $account->getAccountId();
-            $base_url = $account->getBaseUrl();
-            $base_url = strtolower(substr($base_url, 0, strpos($base_url, '/restapi') + 8));
-            // If the host has changed, update host on client config
-            if ($this->host !== $base_url) {
-                $this->host = $base_url;
-                // Reset API's
-                $this->_api_container = [];
-            }
         }
 
         $this->authenticated = true;
 
         return $this;
+    }
+
+    /**
+     * Get JWT auth by RSA key
+     */
+    public function login()
+    {
+        $this->client->getOAuth()->setOAuthBasePath($this->auth_server);
+
+        try {
+            $response =  $this->client->requestJWTUserToken(
+                $this->integrator_key,
+                $this->impersonated_user_id,
+                $this->private_key,
+                $this->jwt_scope,
+                $this->jwt_expiry,
+            );
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        $access_token = $response[0]->getAccessToken();
+
+        return $this->client->getUserInfo($access_token)[0]->getAccounts();
     }
 
     /**
@@ -777,7 +803,7 @@ class Client
      */
     public function getAccountId(): string
     {
-        if (null === $this->account_id) {
+        if ($this->account_id === null) {
             $this->authenticate();
         }
 
