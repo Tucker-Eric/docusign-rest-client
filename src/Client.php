@@ -593,6 +593,13 @@ class Client
     protected $account_id;
 
     /**
+     * Docusign Jwt Scope
+     *
+     * @var string|null
+     */
+    protected $jwt_scope;
+
+    /**
      * Container for all instantiated api objects
      * @var array
      */
