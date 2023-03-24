@@ -29,10 +29,11 @@ Example:
 require 'vendor/autoload.php';
 
 $client = new DocuSign\Rest\Client([
-	'username'       => $username,
-	'password'       => $password,
-	'integrator_key' => $integrator_key,
-	'host'           => $host
+	'impersonated_user_id' => $impersonated_user_id,
+	'integrator_key'       => $integrator_key,
+	'host'                 => $host,
+	'private_key'          => $private_key,
+	'auth_server'          => $auth_server
 ]);
 
 $client->accounts // Returns DocuSign\eSign\Api\AccountsApi
@@ -62,10 +63,11 @@ Example:
 require 'vendor/autoload.php';
 
 $client = new DocuSign\Rest\Client([
-	'username'       => $username,
-	'password'       => $password,
-	'integrator_key' => $integrator_key,
-	'host'           => $host
+            'impersonated_user_id' => $impersonated_user_id,
+            'private_key'          => $private_key,
+            'integrator_key'       => $integrator_key,
+            'host'                 => $host,
+            'auth_server'          => $auth_server
 ]);
 
 $templateRole = $client->templateRole([
@@ -139,19 +141,21 @@ class DocuSignSample
 {
 	public function signatureRequestFromTemplate()
 	{
-		$username = "[EMAIL]";
-        $password = "[PASSWORD]";
+
+	    $impersonated_user_id = "[IMPERSONATED_USER_ID]";
+        $private_key = "[PRIVATE_KEY]";
         $integrator_key = "[INTEGRATOR_KEY]";
 
-		// change to production before going live
+		// change these to production before going live
         $host = "https://demo.docusign.net/restapi";
-
+        $auth_server = "account-d.docusign.com";
 		// Once instantiated, authentication is handled automatically
         $client = new DocuSign\Rest\Client([
-			'username'       => $username,
-			'password'       => $password,
-			'integrator_key' => $integrator_key,
-			'host'           => $host
+            'impersonated_user_id' => $impersonated_user_id,
+            'private_key'          => $private_key,
+            'integrator_key'       => $integrator_key,
+            'host'                 => $host,
+            'auth_server'          => $auth_server
         ]);
 
     	$templateRole = $client->templateRole([
@@ -187,24 +191,26 @@ require 'vendor/autoload.php';
 
 class DocuSignSample
 {
-	
-	protected $username = "[EMAIL]";
-    protected $password = "[PASSWORD]";
+
+	protected $impersonated_user_id = "[IMPERSONATED_USER_ID]";
+    protected $private_key = "[PRIVATE_KEY]";
     protected $integrator_key = "[INTEGRATOR_KEY]";
 
-	// change to production before going live
+	// change these to production before going live
     protected $host = "https://demo.docusign.net/restapi";
+    protected $auth_server = "account-d.docusign.com";
 
-	protected $client;
+    protected $client;
 
 	public function __construct()
 	{
 		// Once instantiated, authentication is handled automatically
         $this->client = new DocuSign\Rest\Client([
-			'username'       => $this->username,
-			'password'       => $this->password,
-			'integrator_key' => $this->integrator_key,
-			'host'           => $this->host
+            'impersonated_user_id' => $impersonated_user_id,
+            'private_key'          => $private_key,
+            'integrator_key'       => $integrator_key,
+            'host'                 => $host,
+            'auth_server'          => $auth_server
         ]);
 	}
 	
