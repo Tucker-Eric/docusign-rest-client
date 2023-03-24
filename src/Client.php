@@ -612,12 +612,12 @@ class Client
 
     public function __construct(array $params = [])
     {
-        $this->host = $params['host'] ?? config('docusign.host');
+        $this->host = $params['host'] ?? null;
         $this->auth_server = $params['auth_server'] ?? 'account-d.docusign.com';
         $this->jwt_scope = $params['jwt_scope'] ?? "signature impersonation";
-        $this->integrator_key = $params['integrator_key'] ?? config('docusign.integrator_key');
-        $this->impersonated_user_id = $params['impersonated_user_id'] ?? config('docusign.impersonated_user_id');
-        $this->private_key = $params['private_key'] ?? config('docusign.private_key');
+        $this->integrator_key = $params['integrator_key'] ?? null;
+        $this->impersonated_user_id = $params['impersonated_user_id'] ?? null;
+        $this->private_key = $params['private_key'] ?? null;
     }
 
     /**
