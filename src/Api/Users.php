@@ -46,7 +46,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Api\UsersApi\UpdateSignatureOptions updateSignatureOptions(array $options = ['set_close_existing_signature' => null])
  * @method Models\UserSignature updateSignature(?string $signature_id, ?string $user_id, Models\UserSignatureDefinition $user_signature_definition = null, Api\UsersApi\UpdateSignatureOptions $options = null) Updates the user signature for a specified user
  * @method Api\UsersApi\UpdateSignatureImageOptions updateSignatureImageOptions(array $options = ['set_transparent_png' => null])
- * @method Models\UserSignature updateSignatureImage(?string $image_type, ?string $signature_id, ?string $user_id, Api\UsersApi\UpdateSignatureImageOptions $options = null) Updates the user signature image or user initials image for the specified user or
+ * @method Models\UserSignature updateSignatureImage(?string $image_type, ?string $signature_id, ?string $user_id, ?string $image_bytes, Api\UsersApi\UpdateSignatureImageOptions $options = null) Updates the user signature image or user initials image for the specified user or
  * @method Models\UserSignaturesInformation updateSignatures(?string $user_id, Models\UserSignaturesInformation $user_signatures_information = null) Adds
  * @method Api\UsersApi\UpdateUserOptions updateUserOptions(array $options = ['set_allow_all_languages' => null])
  * @method Models\UserInformation updateUser(?string $user_id, Models\UserInformation $user_information = null, Api\UsersApi\UpdateUserOptions $options = null) Updates the specified user information

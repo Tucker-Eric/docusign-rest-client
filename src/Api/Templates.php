@@ -23,7 +23,6 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\Tabs createTemplateDocumentTabs(?string $document_id, ?string $template_id, Models\TemplateTabs $template_tabs = null) Adds the tabs to a tempate
  * @method Models\ViewUrl createTemplateRecipientPreview(?string $template_id, Models\RecipientPreviewRequest $recipient_preview_request = null) Provides a URL to start a recipient view of the Envelope UI
  * @method Models\DocumentHtmlDefinitions createTemplateResponsiveHtmlPreview(?string $template_id, Models\DocumentHtmlDefinition $document_html_definition = null) Get Responsive HTML Preview for all documents in a template
- * @method Models\BulkRecipientsUpdateResponse deleteBulkRecipients(?string $recipient_id, ?string $template_id) Deletes the bulk recipient list on a template
  * @method Models\CustomFields deleteCustomFields(?string $template_id, Models\TemplateCustomFields $template_custom_fields = null) Deletes envelope custom fields in a template
  * @method Models\DocumentFieldsInformation deleteDocumentFields(?string $document_id, ?string $template_id, Models\DocumentFieldsInformation $document_fields_information = null) Deletes custom document fields from an existing template document
  * @method mixed deleteDocumentPage(?string $document_id, ?string $page_number, ?string $template_id, Models\PageRequest $page_request = null) Deletes a page from a document in an template
@@ -36,7 +35,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\Tabs deleteTemplateDocumentTabs(?string $document_id, ?string $template_id, Models\TemplateTabs $template_tabs = null) Deletes tabs from an envelope document
  * @method Api\TemplatesApi\GetOptions getOptions(array $options = ['set_include' => null])
  * @method Models\EnvelopeTemplate get(?string $template_id, Api\TemplatesApi\GetOptions $options = null) Gets a list of templates for a specified account
- * @method Api\TemplatesApi\GetDocumentOptions getDocumentOptions(array $options = ['set_encrypt' => null, 'set_show_changes' => null])
+ * @method Api\TemplatesApi\GetDocumentOptions getDocumentOptions(array $options = ['set_encrypt' => null, 'set_file_type' => null, 'set_show_changes' => null])
  * @method \SplFileObject getDocument(?string $document_id, ?string $template_id, Api\TemplatesApi\GetDocumentOptions $options = null) Gets PDF documents from a template
  * @method Api\TemplatesApi\GetDocumentPageImageOptions getDocumentPageImageOptions(array $options = ['set_dpi' => null, 'set_max_height' => null, 'set_max_width' => null, 'set_show_changes' => null])
  * @method \SplFileObject getDocumentPageImage(?string $document_id, ?string $page_number, ?string $template_id, Api\TemplatesApi\GetDocumentPageImageOptions $options = null) Gets a page image from a template for display
@@ -49,8 +48,6 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\PageImages getPages(?string $document_id, ?string $template_id, Api\TemplatesApi\GetPagesOptions $options = null) Returns document page image(s) based on input
  * @method Models\DocumentHtmlDefinitionOriginals getTemplateDocumentHtmlDefinitions(?string $document_id, ?string $template_id) Get the Original HTML Definition used to generate the Responsive HTML for a given document in a template
  * @method Models\DocumentHtmlDefinitionOriginals getTemplateHtmlDefinitions(?string $template_id) Get the Original HTML Definition used to generate the Responsive HTML for the template
- * @method Api\TemplatesApi\ListBulkRecipientsOptions listBulkRecipientsOptions(array $options = ['set_include_tabs' => null, 'set_start_position' => null])
- * @method Models\BulkRecipientsResponse listBulkRecipients(?string $recipient_id, ?string $template_id, Api\TemplatesApi\ListBulkRecipientsOptions $options = null) Gets the bulk recipient file from a template
  * @method Models\CustomFields listCustomFields(?string $template_id) Gets the custom document fields from a template
  * @method Models\DocumentFieldsInformation listDocumentFields(?string $document_id, ?string $template_id) Gets the custom document fields for a an existing template document
  * @method Api\TemplatesApi\ListDocumentsOptions listDocumentsOptions(array $options = ['set_include_tabs' => null])
@@ -63,7 +60,6 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\EnvelopeTemplateResults listTemplates(Api\TemplatesApi\ListTemplatesOptions $options = null) Gets the definition of a template
  * @method mixed rotateDocumentPage(?string $document_id, ?string $page_number, ?string $template_id, Models\PageRequest $page_request = null) Rotates page image from a template for display
  * @method Models\TemplateUpdateSummary update(?string $template_id, Models\EnvelopeTemplate $envelope_template = null) Updates an existing template
- * @method Models\BulkRecipientsSummaryResponse updateBulkRecipients(?string $recipient_id, ?string $template_id, Models\BulkRecipientsRequest $bulk_recipients_request = null) Adds or replaces the bulk recipients list in a template
  * @method Models\CustomFields updateCustomFields(?string $template_id, Models\TemplateCustomFields $template_custom_fields = null) Updates envelope custom fields in a template
  * @method Api\TemplatesApi\UpdateDocumentOptions updateDocumentOptions(array $options = ['set_is_envelope_definition' => null])
  * @method Models\EnvelopeDocument updateDocument(?string $document_id, ?string $template_id, Models\EnvelopeDefinition $envelope_definition = null, Api\TemplatesApi\UpdateDocumentOptions $options = null) Adds a document to a template document
@@ -102,8 +98,6 @@ class Templates extends BaseApi
         'createTemplateRecipientPreviewWithHttpInfo',
         'createTemplateResponsiveHtmlPreview',
         'createTemplateResponsiveHtmlPreviewWithHttpInfo',
-        'deleteBulkRecipients',
-        'deleteBulkRecipientsWithHttpInfo',
         'deleteCustomFields',
         'deleteCustomFieldsWithHttpInfo',
         'deleteDocumentFields',
@@ -144,8 +138,6 @@ class Templates extends BaseApi
         'getTemplateDocumentHtmlDefinitionsWithHttpInfo',
         'getTemplateHtmlDefinitions',
         'getTemplateHtmlDefinitionsWithHttpInfo',
-        'listBulkRecipients',
-        'listBulkRecipientsWithHttpInfo',
         'listCustomFields',
         'listCustomFieldsWithHttpInfo',
         'listDocumentFields',
@@ -162,8 +154,6 @@ class Templates extends BaseApi
         'rotateDocumentPageWithHttpInfo',
         'update',
         'updateWithHttpInfo',
-        'updateBulkRecipients',
-        'updateBulkRecipientsWithHttpInfo',
         'updateCustomFields',
         'updateCustomFieldsWithHttpInfo',
         'updateDocument',

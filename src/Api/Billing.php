@@ -16,7 +16,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\DowngradRequestBillingInfoResponse getDowngradeRequestBillingInfo() Returns downgrade plan information for the specified account
  * @method Models\BillingInvoice getInvoice(?string $invoice_id) Retrieves a billing invoice
  * @method Models\BillingPaymentItem getPayment(?string $payment_id) Gets billing payment information for a specific payment
- * @method Api\BillingApi\GetPlanOptions getPlanOptions(array $options = ['set_include_credit_card_information' => null, 'set_include_downgrade_information' => null, 'set_include_metadata' => null, 'set_include_successor_plans' => null])
+ * @method Api\BillingApi\GetPlanOptions getPlanOptions(array $options = ['set_include_credit_card_information' => null, 'set_include_downgrade_information' => null, 'set_include_metadata' => null, 'set_include_successor_plans' => null, 'set_include_tax_exempt_id' => null])
  * @method Models\AccountBillingPlanResponse getPlan(Api\BillingApi\GetPlanOptions $options = null) Get Account Billing Plan
  * @method Models\BillingPlansResponse listBillingPlans() Gets the list of available billing plans
  * @method Api\BillingApi\ListInvoicesOptions listInvoicesOptions(array $options = ['set_from_date' => null, 'set_to_date' => null])

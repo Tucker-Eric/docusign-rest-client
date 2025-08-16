@@ -19,7 +19,7 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\PowerFormsFormDataResponse getPowerFormData(?string $power_form_id, Api\PowerFormsApi\GetPowerFormDataOptions $options = null) Returns the form data associated with the usage of a PowerForm
  * @method Api\PowerFormsApi\ListPowerFormSendersOptions listPowerFormSendersOptions(array $options = ['set_start_position' => null])
  * @method Models\PowerFormSendersResponse listPowerFormSenders(Api\PowerFormsApi\ListPowerFormSendersOptions $options = null) Returns the list of PowerForms available to the user
- * @method Api\PowerFormsApi\ListPowerFormsOptions listPowerFormsOptions(array $options = ['set_from_date' => null, 'set_order' => null, 'set_order_by' => null, 'set_to_date' => null])
+ * @method Api\PowerFormsApi\ListPowerFormsOptions listPowerFormsOptions(array $options = ['set_from_date' => null, 'set_order' => null, 'set_order_by' => null, 'set_search_fields' => null, 'set_search_text' => null, 'set_to_date' => null])
  * @method Models\PowerFormsResponse listPowerForms(Api\PowerFormsApi\ListPowerFormsOptions $options = null) Returns the list of PowerForms available to the user
  * @method Models\PowerForm updatePowerForm(?string $power_form_id, Models\PowerForm $power_form = null) Creates a new PowerForm
  */

@@ -20,8 +20,10 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\CustomFields createCustomField(Models\CustomField $custom_field = null, Api\AccountsApi\CreateCustomFieldOptions $options = null) Creates an acount custom field
  * @method Api\AccountsApi\CreatePermissionProfileOptions createPermissionProfileOptions(array $options = ['set_include' => null])
  * @method Models\PermissionProfile createPermissionProfile(Models\PermissionProfile $permission_profile = null, Api\AccountsApi\CreatePermissionProfileOptions $options = null) Creates a new permission profile in the specified account
- * @method Models\ReportInProductSaveResponse createReportInProductCreate(Models\ReportInProductRunRequest $report_in_product_run_request = null) Creates a customized report
- * @method mixed delete() Deletes the specified account
+ * @method Models\UserAuthorization createUserAuthorization(?string $user_id, Models\UserAuthorizationCreateRequest $user_authorization_create_request = null) Creates the user authorization
+ * @method Models\UserAuthorizationsResponse createUserAuthorizations(?string $user_id, Models\UserAuthorizationsRequest $user_authorizations_request = null) Creates ot updates user authorizations
+ * @method Api\AccountsApi\DeleteOptions deleteOptions(array $options = ['set_redact_user_data' => null])
+ * @method mixed delete(Api\AccountsApi\DeleteOptions $options = null) Deletes the specified account
  * @method mixed deleteAccountSignature(?string $signature_id) Close the specified signature by Id
  * @method Models\AccountSignature deleteAccountSignatureImage(?string $image_type, ?string $signature_id) Deletes a signature or
  * @method mixed deleteBrand(?string $brand_id) Removes a brand
@@ -33,8 +35,10 @@ use \DocuSign\eSign\Model as Models;
  * @method mixed deleteENoteConfiguration() Deletes configuration information for the eNote eOriginal integration
  * @method Api\AccountsApi\DeletePermissionProfileOptions deletePermissionProfileOptions(array $options = ['set_move_users_to' => null])
  * @method mixed deletePermissionProfile(?string $permission_profile_id, Api\AccountsApi\DeletePermissionProfileOptions $options = null) Deletes a permissions profile within the specified account
- * @method Models\ReportInProductSaveResponse deleteReportInProduct(?string $id) Removes a customized report
- * @method Models\AccountIdentityVerificationResponse getAccountIdentityVerification() Get the list of identity verification options for an account
+ * @method mixed deleteUserAuthorization(?string $authorization_id, ?string $user_id) Deletes the user authorization
+ * @method Models\UserAuthorizationsDeleteResponse deleteUserAuthorizations(?string $user_id, Models\UserAuthorizationsDeleteRequest $user_authorizations_delete_request = null) Creates ot updates user authorizations
+ * @method Api\AccountsApi\GetAccountIdentityVerificationOptions getAccountIdentityVerificationOptions(array $options = ['set_identity_verification_workflow_status' => null])
+ * @method Models\AccountIdentityVerificationResponse getAccountIdentityVerification(Api\AccountsApi\GetAccountIdentityVerificationOptions $options = null) Get the list of identity verification options for an account
  * @method Api\AccountsApi\GetAccountInformationOptions getAccountInformationOptions(array $options = ['set_include_account_settings' => null])
  * @method Models\AccountInformation getAccountInformation(Api\AccountsApi\GetAccountInformationOptions $options = null) Retrieves the account information for the specified account
  * @method Models\AccountSignature getAccountSignature(?string $signature_id) Returns information about a single signature by specifed signatureId
@@ -43,6 +47,8 @@ use \DocuSign\eSign\Model as Models;
  * @method Api\AccountsApi\GetAccountSignaturesOptions getAccountSignaturesOptions(array $options = ['set_stamp_format' => null, 'set_stamp_name' => null, 'set_stamp_type' => null])
  * @method Models\AccountSignaturesInformation getAccountSignatures(Api\AccountsApi\GetAccountSignaturesOptions $options = null) Returns the managed signature definitions for the account
  * @method Models\TabAccountSettings getAccountTabSettings() Returns tab settings list for specified account
+ * @method Api\AccountsApi\GetAgentUserAuthorizationsOptions getAgentUserAuthorizationsOptions(array $options = ['set_active_only' => null, 'set_count' => null, 'set_email_substring' => null, 'set_include_closed_users' => null, 'set_permissions' => null, 'set_start_position' => null, 'set_user_name_substring' => null])
+ * @method Models\UserAuthorizations getAgentUserAuthorizations(?string $user_id, Api\AccountsApi\GetAgentUserAuthorizationsOptions $options = null) Returns the agent user authorizations
  * @method Models\PaymentGatewayAccountsInfo getAllPaymentGatewayAccounts() Get all payment gateway account for the provided accountId
  * @method Api\AccountsApi\GetBillingChargesOptions getBillingChargesOptions(array $options = ['set_include_charges' => null])
  * @method Models\BillingChargeResponse getBillingCharges(Api\AccountsApi\GetBillingChargesOptions $options = null) Gets list of recurring and usage charges for the account
@@ -63,10 +69,11 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\AccountPasswordRules getPasswordRules() Get the password rules
  * @method Api\AccountsApi\GetPermissionProfileOptions getPermissionProfileOptions(array $options = ['set_include' => null])
  * @method Models\PermissionProfile getPermissionProfile(?string $permission_profile_id, Api\AccountsApi\GetPermissionProfileOptions $options = null) Returns a permissions profile in the specified account
+ * @method Api\AccountsApi\GetPrincipalUserAuthorizationsOptions getPrincipalUserAuthorizationsOptions(array $options = ['set_active_only' => null, 'set_count' => null, 'set_email_substring' => null, 'set_include_closed_users' => null, 'set_permissions' => null, 'set_start_position' => null, 'set_user_name_substring' => null])
+ * @method Models\UserAuthorizations getPrincipalUserAuthorizations(?string $user_id, Api\AccountsApi\GetPrincipalUserAuthorizationsOptions $options = null) Returns the principal user authorizations
  * @method Models\ProvisioningInformation getProvisioning() Retrieves the account provisioning information for the account
- * @method Models\ReportInProductGet getReportInProduct(?string $id) Gets the specified report
- * @method Models\ReportInProductList getReportInProductList() Gets the descriptors for all of an account
  * @method Models\SupportedLanguages getSupportedLanguages() Gets list of supported languages for recipient language setting
+ * @method Models\UserAuthorization getUserAuthorization(?string $authorization_id, ?string $user_id) Returns the user authorization for a given authorization id
  * @method Models\Watermark getWatermark() Get watermark information
  * @method Models\Watermark getWatermarkPreview(Models\Watermark $watermark = null) Get watermark preview
  * @method Api\AccountsApi\ListBrandsOptions listBrandsOptions(array $options = ['set_exclude_distributor_brand' => null, 'set_include_logos' => null])
@@ -88,7 +95,8 @@ use \DocuSign\eSign\Model as Models;
  * @method Api\AccountsApi\UpdateAccountSignatureImageOptions updateAccountSignatureImageOptions(array $options = ['set_transparent_png' => null])
  * @method Models\AccountSignature updateAccountSignatureImage(?string $image_type, ?string $signature_id, Api\AccountsApi\UpdateAccountSignatureImageOptions $options = null) Sets a signature or
  * @method Models\TabAccountSettings updateAccountTabSettings(Models\TabAccountSettings $tab_account_settings = null) Modifies tab settings for specified account
- * @method Models\Brand updateBrand(?string $brand_id, Models\Brand $brand = null) Updates an existing brand
+ * @method Api\AccountsApi\UpdateBrandOptions updateBrandOptions(array $options = ['set_replace_brand' => null])
+ * @method Models\Brand updateBrand(?string $brand_id, Models\Brand $brand = null, Api\AccountsApi\UpdateBrandOptions $options = null) Updates an existing brand
  * @method mixed updateBrandLogoByType(?string $brand_id, ?string $logo_type, ?string $logo_file_bytes) Put one branding logo
  * @method Models\BrandResources updateBrandResourcesByContentType(?string $brand_id, ?string $resource_content_type, \SplFileObject $file_xml) Uploads a branding resource file
  * @method Api\AccountsApi\UpdateConsumerDisclosureOptions updateConsumerDisclosureOptions(array $options = ['set_include_metadata' => null])
@@ -102,12 +110,10 @@ use \DocuSign\eSign\Model as Models;
  * @method Models\AccountPasswordRules updatePasswordRules(Models\AccountPasswordRules $account_password_rules = null) Update the password rules
  * @method Api\AccountsApi\UpdatePermissionProfileOptions updatePermissionProfileOptions(array $options = ['set_include' => null])
  * @method Models\PermissionProfile updatePermissionProfile(?string $permission_profile_id, Models\PermissionProfile $permission_profile = null, Api\AccountsApi\UpdatePermissionProfileOptions $options = null) Updates a permission profile within the specified account
- * @method Models\ReportInProductRunResponse updateReportInProductRunResults(Models\ReportInProductRunRequest $report_in_product_run_request = null) Returns the result set from running the specified report
- * @method Models\ReportInProductSaveResponse updateReportInProductSave(?string $id, Models\ReportInProductRunRequest $report_in_product_run_request = null) Saves a customized report
- * @method mixed updateReportResultsCsv(Models\ReportInProductCsvRunRequest $report_in_product_csv_run_request = null) Returns the specified report as a CSV string
  * @method mixed updateSettings(Models\AccountSettingsInformation $account_settings_information = null) Updates the account settings for an account
  * @method Api\AccountsApi\UpdateSharedAccessOptions updateSharedAccessOptions(array $options = ['set_item_type' => null, 'set_preserve_existing_shared_access' => null, 'set_user_ids' => null])
  * @method Models\AccountSharedAccess updateSharedAccess(Models\AccountSharedAccess $account_shared_access = null, Api\AccountsApi\UpdateSharedAccessOptions $options = null) Reserved
+ * @method Models\UserAuthorization updateUserAuthorization(?string $authorization_id, ?string $user_id, Models\UserAuthorizationUpdateRequest $user_authorization_update_request = null) Updates the user authorization
  * @method Models\Watermark updateWatermark(Models\Watermark $watermark = null) Update watermark information
  */
 class Accounts extends BaseApi
@@ -121,8 +127,10 @@ class Accounts extends BaseApi
         'createCustomFieldWithHttpInfo',
         'createPermissionProfile',
         'createPermissionProfileWithHttpInfo',
-        'createReportInProductCreate',
-        'createReportInProductCreateWithHttpInfo',
+        'createUserAuthorization',
+        'createUserAuthorizationWithHttpInfo',
+        'createUserAuthorizations',
+        'createUserAuthorizationsWithHttpInfo',
         'delete',
         'deleteWithHttpInfo',
         'deleteAccountSignature',
@@ -143,8 +151,10 @@ class Accounts extends BaseApi
         'deleteENoteConfigurationWithHttpInfo',
         'deletePermissionProfile',
         'deletePermissionProfileWithHttpInfo',
-        'deleteReportInProduct',
-        'deleteReportInProductWithHttpInfo',
+        'deleteUserAuthorization',
+        'deleteUserAuthorizationWithHttpInfo',
+        'deleteUserAuthorizations',
+        'deleteUserAuthorizationsWithHttpInfo',
         'getAccountIdentityVerification',
         'getAccountIdentityVerificationWithHttpInfo',
         'getAccountInformation',
@@ -157,6 +167,8 @@ class Accounts extends BaseApi
         'getAccountSignaturesWithHttpInfo',
         'getAccountTabSettings',
         'getAccountTabSettingsWithHttpInfo',
+        'getAgentUserAuthorizations',
+        'getAgentUserAuthorizationsWithHttpInfo',
         'getAllPaymentGatewayAccounts',
         'getAllPaymentGatewayAccountsWithHttpInfo',
         'getBillingCharges',
@@ -187,12 +199,12 @@ class Accounts extends BaseApi
         'getPasswordRulesWithHttpInfo',
         'getPermissionProfile',
         'getPermissionProfileWithHttpInfo',
-        'getReportInProduct',
-        'getReportInProductWithHttpInfo',
-        'getReportInProductList',
-        'getReportInProductListWithHttpInfo',
+        'getPrincipalUserAuthorizations',
+        'getPrincipalUserAuthorizationsWithHttpInfo',
         'getSupportedLanguages',
         'getSupportedLanguagesWithHttpInfo',
+        'getUserAuthorization',
+        'getUserAuthorizationWithHttpInfo',
         'getWatermark',
         'getWatermarkWithHttpInfo',
         'getWatermarkPreview',
@@ -245,16 +257,12 @@ class Accounts extends BaseApi
         'updatePasswordRulesWithHttpInfo',
         'updatePermissionProfile',
         'updatePermissionProfileWithHttpInfo',
-        'updateReportInProductRunResults',
-        'updateReportInProductRunResultsWithHttpInfo',
-        'updateReportInProductSave',
-        'updateReportInProductSaveWithHttpInfo',
-        'updateReportResultsCsv',
-        'updateReportResultsCsvWithHttpInfo',
         'updateSettings',
         'updateSettingsWithHttpInfo',
         'updateSharedAccess',
         'updateSharedAccessWithHttpInfo',
+        'updateUserAuthorization',
+        'updateUserAuthorizationWithHttpInfo',
         'updateWatermark',
         'updateWatermarkWithHttpInfo'
 ];
